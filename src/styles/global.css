@@ -1,0 +1,356 @@
+/* ==========================================================
+   Tokens: preto grafite, lima elétrico (ação e destaque) e
+   ciano (dados e detalhes). O lima conversa com o FurioZOs,
+   o projeto em destaque.
+   ========================================================== */
+:root {
+  --bg: #040609;
+  --bg-2: #080b10;
+  --superficie: #0c1017;
+  --superficie-2: #121824;
+  --linha: rgba(170, 195, 225, 0.1);
+  --linha-forte: rgba(170, 195, 225, 0.2);
+  --texto: #eef3f8;
+  --texto-2: #a9b5c3;
+  --suave: #6c7a8c;
+  --acento: #c6ff3d;
+  --acento-forte: #d9ff7a;
+  --acento-fundo: rgba(198, 255, 61, 0.08);
+  --acento-2: #3ee6ff;
+  --acento-2-fundo: rgba(62, 230, 255, 0.08);
+  --ok: #c6ff3d;
+  --sobre-acento: #071003;
+
+  --fonte: 'Geist', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --fonte-titulo: 'Unbounded', 'Geist', system-ui, sans-serif;
+  --fonte-mono: 'Geist Mono', ui-monospace, Consolas, monospace;
+
+  --raio: 10px;
+  --raio-g: 14px;
+  --corte: 14px;
+  --largura: 1200px;
+  --gutter: clamp(16px, 4vw, 40px);
+  --sombra: 0 24px 60px -20px rgba(0, 0, 0, 0.8);
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 88px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--texto);
+  font-family: var(--fonte);
+  font-size: 1rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+html[data-intro='on'] body { overflow: hidden; }
+
+main { overflow-x: clip; }
+
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; cursor: pointer; }
+::selection { background: var(--acento); color: var(--sobre-acento); }
+
+:focus-visible {
+  outline: 2px solid var(--acento);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.pular-conteudo {
+  position: absolute;
+  left: 16px;
+  top: -60px;
+  z-index: 100;
+  padding: 10px 16px;
+  background: var(--acento);
+  color: var(--sobre-acento);
+  font-weight: 600;
+}
+.pular-conteudo:focus { top: 16px; }
+
+.container {
+  width: 100%;
+  max-width: var(--largura);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* ---------- Tipografia ---------- */
+h1, h2, h3 {
+  font-family: var(--fonte-titulo);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  margin: 0;
+  text-wrap: balance;
+}
+p { margin: 0; text-wrap: pretty; }
+
+/* Palavra em destaque nos títulos: lima com brilho. */
+.realce {
+  color: var(--acento);
+  text-shadow: 0 0 32px rgba(198, 255, 61, 0.35);
+}
+
+.mono { font-family: var(--fonte-mono); }
+
+.rotulo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--fonte-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--suave);
+}
+.rotulo--ouro { color: var(--acento); }
+
+/* ---------- Seções ---------- */
+.secao { padding: clamp(80px, 12vw, 140px) 0; position: relative; }
+.secao__numero {
+  font-family: var(--fonte-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  color: var(--acento);
+}
+.secao__numero span { color: var(--suave); }
+
+/* Brilho de fundo por seção, alternando lima e ciano. */
+.secao--brilho::before,
+.secao--brilho-ouro::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  width: 720px;
+  height: 520px;
+  top: 10%;
+  left: -260px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(198, 255, 61, 0.06), transparent);
+  pointer-events: none;
+}
+.secao--brilho-ouro::before {
+  left: auto;
+  right: -260px;
+  background: radial-gradient(closest-side, rgba(62, 230, 255, 0.06), transparent);
+}
+
+/* Divisor entre seções: linha com marcador central. */
+.ornamento {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  max-width: var(--largura);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+.ornamento::before,
+.ornamento::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--linha-forte)); }
+.ornamento::after { background: linear-gradient(90deg, var(--linha-forte), transparent); }
+.ornamento span {
+  width: 36px;
+  height: 4px;
+  background: repeating-linear-gradient(90deg, var(--acento) 0 6px, transparent 6px 10px);
+  opacity: 0.8;
+}
+
+/* ---------- Painel HUD: cantos chanfrados com borda ---------- */
+.hud {
+  --borda: var(--linha-forte);
+  --fundo-hud: linear-gradient(180deg, rgba(18, 24, 36, 0.9), rgba(10, 13, 20, 0.9));
+  position: relative;
+  clip-path: polygon(var(--corte) 0, 100% 0, 100% calc(100% - var(--corte)), calc(100% - var(--corte)) 100%, 0 100%, 0 var(--corte));
+  background: var(--borda);
+  isolation: isolate;
+}
+.hud::before {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  z-index: -1;
+  clip-path: inherit;
+  background: var(--fundo-hud);
+}
+.hud--ativo { --borda: linear-gradient(135deg, rgba(198, 255, 61, 0.7), rgba(170, 195, 225, 0.12) 40%, rgba(62, 230, 255, 0.55)); }
+
+/* ---------- Botões ---------- */
+.btn {
+  --cor: var(--texto);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 46px;
+  padding: 0 22px;
+  border-radius: 4px;
+  border: 1px solid var(--linha-forte);
+  background: rgba(12, 16, 23, 0.6);
+  color: var(--cor);
+  font-family: var(--fonte-mono);
+  font-weight: 500;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: transform 0.25s var(--ease), background 0.25s, border-color 0.25s, color 0.25s, box-shadow 0.25s;
+  white-space: nowrap;
+}
+.btn:hover { border-color: var(--acento); color: var(--acento); transform: translateY(-2px); }
+.btn--primario {
+  border: 0;
+  border-radius: 0;
+  background: var(--acento);
+  color: var(--sobre-acento);
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+  box-shadow: 0 0 40px -8px rgba(198, 255, 61, 0.6);
+}
+.btn--primario:hover { background: var(--acento-forte); color: var(--sobre-acento); }
+.btn--pequeno { min-height: 36px; padding: 0 14px; font-size: 0.76rem; }
+.btn svg { width: 16px; height: 16px; flex: none; }
+
+kbd {
+  font-family: var(--fonte-mono);
+  font-size: 0.78em;
+  padding: 2px 7px;
+  border-radius: 4px;
+  border: 1px solid var(--linha-forte);
+  border-bottom-width: 2px;
+  background: var(--superficie);
+  color: var(--texto-2);
+}
+
+/* Chips de tecnologia */
+.chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 0; margin: 0; list-style: none; }
+.chip {
+  font-family: var(--fonte-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.02em;
+  padding: 4px 9px;
+  border-radius: 3px;
+  border: 1px solid var(--linha);
+  color: var(--texto-2);
+  background: rgba(12, 16, 23, 0.7);
+}
+
+/* Selo de status */
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--fonte-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--texto-2);
+}
+.status::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  background: var(--suave);
+}
+.status--online::before { background: var(--acento); box-shadow: 0 0 10px var(--acento); animation: pulso 2.4s infinite; }
+.status--academico::before { background: var(--acento-2); }
+.status--codigo::before { background: transparent; border: 1px solid var(--acento-2); }
+
+@keyframes pulso { 50% { opacity: 0.35; } }
+
+/* Superfície "vidro" usada em alguns cards */
+.vidro {
+  background: linear-gradient(180deg, rgba(18, 24, 36, 0.78), rgba(10, 13, 20, 0.78));
+  border: 1px solid var(--linha);
+  border-radius: var(--raio-g);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Revelar ao rolar */
+[data-revelar] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+  transition-delay: calc(var(--atraso, 0) * 90ms);
+}
+[data-revelar].visivel { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  [data-revelar] { opacity: 1; transform: none; }
+}
+
+/* ---------- Fundo fixo: brilho, grade e piso em perspectiva ---------- */
+.fundo {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(1000px 520px at 78% -12%, rgba(62, 230, 255, 0.08), transparent 60%),
+    radial-gradient(800px 500px at 10% 0%, rgba(198, 255, 61, 0.06), transparent 60%),
+    var(--bg);
+  overflow: hidden;
+}
+.fundo::before {
+  content: '';
+  position: absolute;
+  left: -50%;
+  right: -50%;
+  bottom: -10%;
+  height: 60%;
+  background-image:
+    linear-gradient(rgba(198, 255, 61, 0.14) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(198, 255, 61, 0.14) 1px, transparent 1px);
+  background-size: 70px 70px;
+  transform: perspective(500px) rotateX(62deg);
+  transform-origin: bottom;
+  mask-image: linear-gradient(to top, #000 0%, transparent 85%);
+  -webkit-mask-image: linear-gradient(to top, #000 0%, transparent 85%);
+  opacity: 0.45;
+}
+.fundo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--linha) 1px, transparent 1px),
+    linear-gradient(90deg, var(--linha) 1px, transparent 1px);
+  background-size: 70px 70px;
+  opacity: 0.4;
+  mask-image: radial-gradient(ellipse at 50% 0%, #000 0%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse at 50% 0%, #000 0%, transparent 70%);
+}
+.fundo canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+/* Linhas de varredura e grão bem sutis por cima de tudo. */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  pointer-events: none;
+  opacity: 0.06;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.05) 0 1px, transparent 1px 3px),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}

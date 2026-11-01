@@ -1,0 +1,75 @@
+---
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import Rodape from '../components/Rodape.astro';
+import Terminal from '../components/Terminal.astro';
+import PreviewModal from '../components/PreviewModal.astro';
+import { textos, type Idioma } from '../i18n/textos';
+
+interface Props {
+  lang: Idioma;
+  titulo?: string;
+  descricao?: string;
+  /** Caminho da mesma página no outro idioma. */
+  alternativo: string;
+  /** Só a home mostra a intro cinematográfica. */
+  intro?: boolean;
+}
+
+const { lang, titulo, descricao, alternativo, intro = false } = Astro.props;
+const t = textos[lang];
+const tituloFinal = titulo ?? t.meta.titulo;
+const descricaoFinal = descricao ?? t.meta.descricao;
+const canonico = new URL(Astro.url.pathname, Astro.site);
+const og = new URL('/img/og.png', Astro.site);
+const outroLang = lang === 'pt' ? 'en' : 'pt';
+---
+
+<!doctype html>
+<html lang={lang === 'pt' ? 'pt-BR' : 'en'} data-tem-intro={intro ? '' : undefined}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{tituloFinal}</title>
+    <meta name="description" content={descricaoFinal} />
+    <meta name="theme-color" content="#040609" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="canonical" href={canonico} />
+    <link rel="alternate" hreflang={outroLang === 'en' ? 'en' : 'pt-BR'} href={new URL(alternativo, Astro.site)} />
+    <link rel="alternate" hreflang={lang === 'en' ? 'en' : 'pt-BR'} href={canonico} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={tituloFinal} />
+    <meta property="og:description" content={descricaoFinal} />
+    <meta property="og:url" content={canonico} />
+    <meta property="og:image" content={og} />
+    <meta property="og:locale" content={lang === 'pt' ? 'pt_BR' : 'en_US'} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Unbounded:wght@400;500;600&display=swap"
+    />
+    <script is:inline src="/intro-check.js"></script>
+  </head>
+  <body>
+    <a class="pular-conteudo" href="#conteudo">{lang === 'pt' ? 'Pular para o conteúdo' : 'Skip to content'}</a>
+    <div class="fundo" aria-hidden="true"><canvas id="rede"></canvas></div>
+    <slot name="intro" />
+    <Nav lang={lang} alternativo={alternativo} />
+    <main id="conteudo">
+      <slot />
+    </main>
+    <Rodape lang={lang} />
+    <Terminal lang={lang} />
+    <PreviewModal lang={lang} />
+
+    <script>
+      import '../scripts/fundo';
+      import '../scripts/revelar';
+      import '../scripts/inclinar';
+    </script>
+  </body>
+</html>

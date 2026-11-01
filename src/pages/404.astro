@@ -1,0 +1,22 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base lang="pt" titulo="Página não encontrada · Giorgio Bazet" alternativo="/en/">
+  <section class="container erro">
+    <p class="mono erro__codigo">404</p>
+    <h1>Esta página não existe.</h1>
+    <p class="erro__texto">This page doesn't exist.</p>
+    <p class="mono erro__terminal">❯ cd ~ <span>· tente o terminal: Ctrl + K</span></p>
+    <a class="btn btn--primario" href="/">Voltar ao início</a>
+  </section>
+</Base>
+
+<style>
+  .erro { min-height: 80svh; display: grid; place-content: center; justify-items: start; gap: 18px; padding-top: 100px; }
+  .erro__codigo { color: var(--acento-2); letter-spacing: 0.3em; }
+  .erro h1 { font-size: clamp(2.2rem, 6vw, 3.8rem); }
+  .erro__texto { color: var(--suave); }
+  .erro__terminal { color: var(--acento); font-size: 0.9rem; }
+  .erro__terminal span { color: var(--suave); }
+</style>

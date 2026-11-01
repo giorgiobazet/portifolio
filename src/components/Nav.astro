@@ -1,0 +1,168 @@
+---
+import Icone from './Icone.astro';
+import { textos, rotas, type Idioma } from '../i18n/textos';
+
+interface Props {
+  lang: Idioma;
+  alternativo: string;
+}
+const { lang, alternativo } = Astro.props;
+const t = textos[lang];
+const home = rotas[lang].home;
+const links = [
+  { href: `${home}#projetos`, num: '01', texto: t.nav.projetos },
+  { href: `${home}#stack`, num: '02', texto: t.nav.stack },
+  { href: `${home}#sobre`, num: '04', texto: t.nav.sobre },
+  { href: `${home}#trajetoria`, num: '05', texto: t.nav.trajetoria },
+  { href: `${home}#contato`, num: '06', texto: t.nav.contato },
+];
+---
+
+<header class="nav" data-nav>
+  <div class="container nav__dentro">
+    <a class="marca" href={home} aria-label="Giorgio Bazet">
+      <span class="marca__mono">G<b>B</b></span>
+      <span class="marca__nome">Giorgio Bazet</span>
+    </a>
+
+    <nav class="nav__links" id="menu" aria-label={lang === 'pt' ? 'Principal' : 'Main'}>
+      {
+        links.map((l) => (
+          <a href={l.href}>
+            <span>{l.num}</span>
+            {l.texto}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="nav__acoes">
+      <a class="nav__idioma" href={alternativo} hreflang={lang === 'pt' ? 'en' : 'pt-BR'} title={t.idiomaOutro.nome}>
+        {t.idiomaOutro.rotulo}
+      </a>
+      <button class="btn btn--pequeno nav__terminal" type="button" data-abrir-terminal>
+        <Icone nome="terminal" />
+        <span>{t.nav.terminal}</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+      <button class="nav__menu" type="button" aria-controls="menu" aria-expanded="false" data-menu>
+        <Icone nome="menu" tamanho={20} />
+        <span class="sr-only">Menu</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<style>
+  .nav {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 40;
+    transition: background 0.3s, border-color 0.3s, backdrop-filter 0.3s;
+    border-bottom: 1px solid transparent;
+  }
+  .nav.rolou {
+    background: rgba(4, 6, 9, 0.78);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-color: var(--linha);
+  }
+  .nav__dentro {
+    height: 72px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+  .marca { display: flex; align-items: center; gap: 12px; margin-right: auto; }
+  .marca__mono {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    border: 1px solid rgba(198, 255, 61, 0.45);
+    font-family: var(--fonte-mono);
+    font-weight: 500;
+    font-size: 0.95rem;
+  }
+  .marca__mono b { color: var(--acento-2); font-weight: 500; }
+  .marca__nome { font-family: var(--fonte-titulo); font-weight: 500; letter-spacing: -0.01em; }
+
+  .nav__links { display: flex; gap: 28px; }
+  .nav__links a {
+    font-size: 0.9rem;
+    color: var(--texto-2);
+    transition: color 0.2s;
+  }
+  .nav__links a span { font-family: var(--fonte-mono); font-size: 0.72rem; color: var(--acento); margin-right: 6px; }
+  .nav__links a:hover { color: var(--texto); }
+
+  .nav__acoes { display: flex; align-items: center; gap: 10px; }
+  .nav__idioma {
+    font-family: var(--fonte-mono);
+    font-size: 0.8rem;
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--linha);
+    color: var(--texto-2);
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .nav__idioma:hover { border-color: var(--acento-2); color: var(--acento-2); }
+  .nav__terminal kbd { padding: 0 6px; }
+  .nav__menu {
+    display: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    border: 1px solid var(--linha);
+    background: transparent;
+    place-items: center;
+  }
+
+  @media (max-width: 900px) {
+    .nav__terminal span, .nav__terminal kbd { display: none; }
+    .nav__menu { display: grid; }
+    .nav__links {
+      position: absolute;
+      top: 72px;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      gap: 0;
+      padding: 8px var(--gutter) 20px;
+      background: rgba(4, 6, 9, 0.96);
+      border-bottom: 1px solid var(--linha);
+      transform: translateY(-8px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s, transform 0.25s, visibility 0.25s;
+    }
+    .nav__links a { padding: 14px 0; border-bottom: 1px solid var(--linha); font-size: 1rem; }
+    .nav.aberto .nav__links { opacity: 1; transform: none; visibility: visible; }
+    .nav.aberto { background: rgba(4, 6, 9, 0.96); }
+  }
+  @media (max-width: 420px) {
+    .marca__nome { display: none; }
+  }
+</style>
+
+<script>
+  const nav = document.querySelector<HTMLElement>('[data-nav]')!;
+  const botao = nav.querySelector<HTMLButtonElement>('[data-menu]')!;
+
+  const aoRolar = () => nav.classList.toggle('rolou', window.scrollY > 20);
+  aoRolar();
+  window.addEventListener('scroll', aoRolar, { passive: true });
+
+  function fecharMenu() {
+    nav.classList.remove('aberto');
+    botao.setAttribute('aria-expanded', 'false');
+  }
+  botao.addEventListener('click', () => {
+    const aberto = nav.classList.toggle('aberto');
+    botao.setAttribute('aria-expanded', String(aberto));
+  });
+  nav.querySelectorAll('.nav__links a').forEach((a) => a.addEventListener('click', fecharMenu));
+  document.addEventListener('keydown', (e) => e.key === 'Escape' && fecharMenu());
+</script>

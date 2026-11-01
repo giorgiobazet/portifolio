@@ -1,0 +1,113 @@
+---
+import Capa from './Capa.astro';
+import Icone from './Icone.astro';
+import { textos, rotas, type Idioma } from '../i18n/textos';
+import type { Projeto } from '../data/projetos';
+
+interface Props {
+  projeto: Projeto;
+  numero: number;
+  lang: Idioma;
+}
+const { projeto: p, numero, lang } = Astro.props;
+const t = textos[lang].projetos;
+const c = p[lang];
+const pagina = rotas[lang].projeto(p.slug);
+---
+
+<article class="card" data-categorias={p.categorias.join(' ')} data-revelar style={`--atraso:${numero % 3}`}>
+  <div class="card__capa">
+    <Capa capa={p.capa} titulo={c.titulo} />
+    {
+      p.preview && p.url && (
+        <button class="card__preview" type="button" data-preview-url={p.url} data-preview-titulo={c.titulo}>
+          <Icone nome="play" tamanho={14} />
+          {t.preview}
+        </button>
+      )
+    }
+  </div>
+  <div class="card__corpo">
+    <div class="card__meta">
+      <span class="mono card__num">{String(numero).padStart(3, '0')}</span>
+      <span class={`status status--${p.status}`}>{t.status[p.status as keyof typeof t.status]}</span>
+    </div>
+    <h3 class="card__titulo"><a href={pagina}>{c.titulo}</a></h3>
+    <p class="card__resumo">{c.resumo}</p>
+    <ul class="chips">
+      {p.tecnologias.slice(0, 4).map((tec) => <li class="chip">{tec}</li>)}
+    </ul>
+    <div class="card__links">
+      {
+        p.url && (
+          <a href={p.url} target="_blank" rel="noopener noreferrer">
+            {t.abrir} <Icone nome="externo" tamanho={14} />
+          </a>
+        )
+      }
+      <a href={p.repo} target="_blank" rel="noopener noreferrer">
+        {t.codigo} <Icone nome="github" tamanho={14} />
+      </a>
+      <a class="card__detalhes" href={pagina} aria-label={`${t.detalhes}: ${c.titulo}`}>
+        {t.detalhes} <Icone nome="direita" tamanho={14} />
+      </a>
+    </div>
+  </div>
+</article>
+
+<style>
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--raio-g);
+    border: 1px solid var(--linha);
+    background: linear-gradient(180deg, rgba(18, 24, 36, 0.6), rgba(10, 13, 20, 0.6));
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.4s var(--ease), box-shadow 0.4s;
+  }
+  .card:hover { border-color: rgba(198, 255, 61, 0.35); transform: translateY(-4px); box-shadow: var(--sombra); }
+  .card[hidden] { display: none; }
+
+  .card__capa { position: relative; overflow: hidden; border-bottom: 1px solid var(--linha); }
+  .card__capa :global(.capa) { transition: transform 0.6s var(--ease); }
+  .card:hover .card__capa :global(.capa) { transform: scale(1.03); }
+  .card__preview {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border-radius: 3px;
+    border: 1px solid rgba(198, 255, 61, 0.5);
+    background: rgba(4, 6, 9, 0.82);
+    color: var(--acento-forte);
+    font-size: 0.8rem;
+    font-weight: 600;
+    backdrop-filter: blur(6px);
+    transition: background 0.2s, color 0.2s;
+  }
+  .card__preview:hover { background: var(--acento); color: var(--sobre-acento); }
+
+  .card__corpo { display: flex; flex-direction: column; gap: 14px; padding: 22px; flex: 1; }
+  .card__meta { display: flex; justify-content: space-between; align-items: center; }
+  .card__num { font-size: 0.75rem; color: var(--acento-2); letter-spacing: 0.1em; }
+  .card__titulo { font-size: 1.35rem; }
+  .card__titulo a:hover { color: var(--acento-forte); }
+  .card__resumo { color: var(--texto-2); font-size: 0.93rem; }
+  .card__links {
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 1px solid var(--linha);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 18px;
+    font-size: 0.85rem;
+    color: var(--texto-2);
+  }
+  .card__links a { display: inline-flex; align-items: center; gap: 6px; transition: color 0.2s; }
+  .card__links a:hover { color: var(--acento); }
+  .card__detalhes { margin-left: auto; color: var(--texto); }
+</style>

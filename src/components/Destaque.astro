@@ -1,0 +1,117 @@
+---
+import Capa from './Capa.astro';
+import Icone from './Icone.astro';
+import { projetoDestaque as p } from '../data/projetos';
+import { textos, rotas, type Idioma } from '../i18n/textos';
+
+interface Props {
+  lang: Idioma;
+}
+const { lang } = Astro.props;
+const t = textos[lang];
+const c = p[lang];
+---
+
+<section class="destaque" id="destaque" aria-labelledby="destaque-titulo">
+  <div class="container destaque__grade">
+    <div class="destaque__janela" data-revelar data-inclinar="4">
+      <div class="janela__barra">
+        <span class="janela__luzes" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="janela__url mono">{p.url.replace('https://', '')}</span>
+      </div>
+      <Capa capa={p.capa} titulo={c.titulo} grande prioridade />
+      <div class="janela__reflexo" aria-hidden="true"></div>
+    </div>
+
+    <div class="destaque__texto">
+      <p class="rotulo rotulo--ouro" data-revelar>
+        <span class="destaque__linha" aria-hidden="true"></span>{t.destaque.rotulo} · 001
+      </p>
+      <h2 class="destaque__titulo" id="destaque-titulo" data-revelar style="--atraso:1">{c.titulo}</h2>
+      <p class="destaque__sub" data-revelar style="--atraso:1">{c.subtitulo}</p>
+      <p class="destaque__resumo" data-revelar style="--atraso:2">{c.resumo}</p>
+      <ul class="destaque__lista" data-revelar style="--atraso:2">
+        {c.destaques.slice(0, 4).map((d) => <li>{d}</li>)}
+      </ul>
+      <ul class="chips" data-revelar style="--atraso:3">
+        {p.tecnologias.map((tec) => <li class="chip">{tec}</li>)}
+      </ul>
+      <div class="destaque__ctas" data-revelar style="--atraso:3">
+        <a class="btn btn--primario" href={p.url} target="_blank" rel="noopener noreferrer">
+          {t.destaque.visitar} <Icone nome="externo" />
+        </a>
+        <a class="btn" href={rotas[lang].projeto(p.slug)}>{t.destaque.detalhes} <Icone nome="direita" /></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .destaque { padding: clamp(40px, 8vw, 100px) 0; }
+  .destaque__grade {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.9fr);
+    gap: clamp(32px, 5vw, 72px);
+    align-items: center;
+  }
+
+  .destaque__janela {
+    position: relative;
+    border-radius: var(--raio-g);
+    border: 1px solid var(--linha-forte);
+    background: var(--superficie);
+    overflow: hidden;
+    box-shadow: 0 50px 100px -30px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(62, 230, 255, 0.08), 0 0 80px -20px rgba(62, 230, 255, 0.18);
+    transition: transform 0.4s var(--ease);
+  }
+  .janela__barra {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--linha);
+    background: var(--superficie-2);
+  }
+  .janela__luzes { display: flex; gap: 6px; }
+  .janela__luzes i { width: 10px; height: 10px; border-radius: 50%; background: #263042; }
+  .janela__url {
+    flex: 1;
+    padding: 4px 12px;
+    border-radius: 6px;
+    background: var(--bg);
+    font-size: 0.72rem;
+    color: var(--suave);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .janela__reflexo {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(500px circle at var(--brilho-x, 50%) var(--brilho-y, 0%), rgba(255, 255, 255, 0.07), transparent 50%);
+  }
+
+  .destaque__linha { width: 28px; height: 1px; background: var(--acento-2); }
+  .destaque__titulo { margin-top: 18px; font-size: clamp(2.4rem, 5vw, 3.6rem); }
+  .destaque__sub { margin-top: 10px; font-family: var(--fonte-mono); font-size: 0.82rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--acento-2); }
+  .destaque__resumo { margin-top: 20px; color: var(--texto-2); }
+  .destaque__lista { margin: 22px 0 24px; padding: 0; list-style: none; display: grid; gap: 10px; }
+  .destaque__lista li { position: relative; padding-left: 26px; font-size: 0.93rem; color: var(--texto-2); }
+  .destaque__lista li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 12px;
+    height: 7px;
+    border-left: 2px solid var(--acento);
+    border-bottom: 2px solid var(--acento);
+    transform: rotate(-45deg);
+  }
+  .destaque__ctas { margin-top: 30px; display: flex; flex-wrap: wrap; gap: 12px; }
+
+  @media (max-width: 960px) {
+    .destaque__grade { grid-template-columns: 1fr; }
+  }
+</style>

@@ -1,0 +1,213 @@
+---
+import Base from '../layouts/Base.astro';
+import Capa from './Capa.astro';
+import Icone from './Icone.astro';
+import { projetos } from '../data/projetos';
+import { textos, rotas, type Idioma } from '../i18n/textos';
+
+interface Props {
+  lang: Idioma;
+  slug: string;
+}
+const { lang, slug } = Astro.props;
+const indice = projetos.findIndex((p) => p.slug === slug);
+const p = projetos[indice];
+const c = p[lang];
+const t = textos[lang];
+const outro = lang === 'pt' ? 'en' : 'pt';
+const anterior = projetos[(indice - 1 + projetos.length) % projetos.length];
+const proximo = projetos[(indice + 1) % projetos.length];
+const voltar = `${rotas[lang].home}#projetos`;
+const rotuloCategorias = p.categorias.map((cat) => t.projetos.filtros[cat as keyof typeof t.projetos.filtros] ?? cat);
+---
+
+<Base lang={lang} titulo={`${c.titulo} · Giorgio Bazet`} descricao={c.resumo} alternativo={rotas[outro].projeto(p.slug)}>
+  <article class="projeto">
+    <header class="container projeto__topo">
+      <a class="projeto__voltar" href={voltar}><Icone nome="esquerda" /> {t.projeto.voltar}</a>
+      <div class="projeto__meta" data-revelar>
+        <span class="mono projeto__num">{String(indice + 1).padStart(3, '0')}</span>
+        <span class={`status status--${p.status}`}>{t.projetos.status[p.status]}</span>
+        <span class="mono projeto__ano">{p.ano}</span>
+      </div>
+      <h1 class="projeto__titulo" data-revelar style="--atraso:1">{c.titulo}</h1>
+      <p class="projeto__sub mono" data-revelar style="--atraso:1">{c.subtitulo}</p>
+      <div class="projeto__ctas" data-revelar style="--atraso:2">
+        {
+          p.url && (
+            <a class="btn btn--primario" href={p.url} target="_blank" rel="noopener noreferrer">
+              {t.projetos.abrir} <Icone nome="externo" />
+            </a>
+          )
+        }
+        {
+          p.preview && p.url && (
+            <button class="btn" type="button" data-preview-url={p.url} data-preview-titulo={c.titulo}>
+              <Icone nome="play" /> {t.projetos.preview}
+            </button>
+          )
+        }
+        <a class={p.url ? 'btn' : 'btn btn--primario'} href={p.repo} target="_blank" rel="noopener noreferrer">
+          <Icone nome="github" /> {t.projetos.codigo}
+        </a>
+      </div>
+    </header>
+
+    <div class="container">
+      <div class="projeto__janela" data-revelar style="--atraso:2">
+        <div class="janela__barra">
+          <span class="janela__luzes" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="janela__url mono">{(p.url || p.repo).replace('https://', '')}</span>
+        </div>
+        <Capa capa={p.capa} titulo={c.titulo} grande prioridade />
+      </div>
+
+      <div class="projeto__grade">
+        <section class="projeto__sobre" aria-labelledby="sobre-projeto">
+          <h2 class="rotulo" id="sobre-projeto" data-revelar>{t.projeto.sobre}</h2>
+          {c.descricao.map((par) => <p data-revelar>{par}</p>)}
+          {c.aviso && <p class="projeto__aviso" data-revelar>{c.aviso}</p>}
+
+          <h2 class="rotulo projeto__rotulo-destaques" data-revelar>{t.projeto.destaques}</h2>
+          <ul class="projeto__destaques">
+            {
+              c.destaques.map((d, i) => (
+                <li data-revelar style={`--atraso:${i % 3}`}>
+                  <span class="mono">{String(i + 1).padStart(2, '0')}</span>
+                  {d}
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+
+        <aside class="projeto__lado vidro" data-revelar>
+          <div>
+            <h2 class="rotulo">{t.projeto.stack}</h2>
+            <ul class="chips">{p.tecnologias.map((tec) => <li class="chip">{tec}</li>)}</ul>
+          </div>
+          <dl class="projeto__ficha">
+            <div><dt>{lang === 'pt' ? 'Ano' : 'Year'}</dt><dd>{p.ano}</dd></div>
+            <div><dt>{lang === 'pt' ? 'Categoria' : 'Category'}</dt><dd>{rotuloCategorias.join(' · ')}</dd></div>
+            <div><dt>Status</dt><dd>{t.projetos.status[p.status]}</dd></div>
+          </dl>
+          {
+            p.url && !p.preview && (
+              <p class="projeto__bloqueado">{t.projeto.bloqueado}</p>
+            )
+          }
+        </aside>
+      </div>
+
+      <nav class="projeto__nav" aria-label={lang === 'pt' ? 'Outros projetos' : 'Other projects'}>
+        <a href={rotas[lang].projeto(anterior.slug)}>
+          <span class="rotulo"><Icone nome="esquerda" /> {t.projeto.anterior}</span>
+          <strong>{anterior[lang].titulo}</strong>
+        </a>
+        <a href={rotas[lang].projeto(proximo.slug)} class="projeto__nav-prox">
+          <span class="rotulo">{t.projeto.proximo} <Icone nome="direita" /></span>
+          <strong>{proximo[lang].titulo}</strong>
+        </a>
+      </nav>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .projeto { padding: 120px 0 80px; }
+  .projeto__voltar {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--suave);
+    font-size: 0.9rem;
+    margin-bottom: 36px;
+    transition: color 0.2s;
+  }
+  .projeto__voltar:hover { color: var(--acento); }
+  .projeto__meta { display: flex; align-items: center; gap: 18px; margin-bottom: 18px; }
+  .projeto__num { color: var(--acento-2); font-size: 0.8rem; letter-spacing: 0.12em; }
+  .projeto__ano { color: var(--suave); font-size: 0.8rem; }
+  .projeto__titulo { font-size: clamp(2.6rem, 7vw, 5rem); }
+  .projeto__sub { margin-top: 14px; font-size: clamp(0.8rem, 1.6vw, 0.95rem); letter-spacing: 0.08em; text-transform: uppercase; color: var(--acento-2); }
+  .projeto__ctas { margin-top: 30px; display: flex; flex-wrap: wrap; gap: 12px; }
+
+  .projeto__janela {
+    margin-top: clamp(40px, 6vw, 64px);
+    border-radius: var(--raio-g);
+    border: 1px solid var(--linha-forte);
+    overflow: hidden;
+    background: var(--superficie);
+    box-shadow: 0 50px 100px -30px rgba(0, 0, 0, 0.75);
+  }
+  .janela__barra { display: flex; align-items: center; gap: 14px; padding: 10px 14px; border-bottom: 1px solid var(--linha); background: var(--superficie-2); }
+  .janela__luzes { display: flex; gap: 6px; }
+  .janela__luzes i { width: 10px; height: 10px; border-radius: 50%; background: #263042; }
+  .janela__url { flex: 1; padding: 4px 12px; border-radius: 6px; background: var(--bg); font-size: 0.72rem; color: var(--suave); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  .projeto__grade {
+    margin-top: clamp(48px, 7vw, 80px);
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 0.8fr);
+    gap: clamp(32px, 5vw, 64px);
+    align-items: start;
+  }
+  .projeto__sobre { display: grid; gap: 18px; color: var(--texto-2); font-size: 1.05rem; }
+  .projeto__sobre > .rotulo { margin-bottom: 4px; }
+  .projeto__aviso {
+    padding: 14px 18px;
+    border-radius: 12px;
+    border: 1px solid rgba(62, 230, 255, 0.3);
+    background: var(--acento-2-fundo);
+    color: var(--texto);
+    font-size: 0.93rem;
+  }
+  .projeto__rotulo-destaques { margin-top: 28px; }
+  .projeto__destaques { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+  .projeto__destaques li {
+    display: flex;
+    gap: 16px;
+    padding: 16px 18px;
+    border-radius: 12px;
+    border: 1px solid var(--linha);
+    background: rgba(12, 16, 23, 0.5);
+    color: var(--texto);
+    font-size: 0.97rem;
+  }
+  .projeto__destaques li span { color: var(--acento); font-size: 0.8rem; padding-top: 2px; }
+
+  .projeto__lado { position: sticky; top: 100px; padding: 24px; display: grid; gap: 24px; border-radius: var(--raio); }
+  .projeto__lado .rotulo { margin-bottom: 14px; }
+  .projeto__ficha { margin: 0; display: grid; gap: 12px; }
+  .projeto__ficha div { display: flex; justify-content: space-between; gap: 16px; padding-top: 12px; border-top: 1px solid var(--linha); font-size: 0.9rem; }
+  .projeto__ficha dt { color: var(--suave); }
+  .projeto__ficha dd { margin: 0; text-align: right; }
+  .projeto__bloqueado { font-size: 0.82rem; color: var(--suave); padding-top: 12px; border-top: 1px solid var(--linha); }
+
+  .projeto__nav {
+    margin-top: clamp(64px, 9vw, 110px);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .projeto__nav a {
+    display: grid;
+    gap: 8px;
+    padding: 22px 24px;
+    border-radius: var(--raio);
+    border: 1px solid var(--linha);
+    transition: border-color 0.2s, transform 0.3s var(--ease);
+  }
+  .projeto__nav a:hover { border-color: rgba(198, 255, 61, 0.4); transform: translateY(-2px); }
+  .projeto__nav strong { font-family: var(--fonte-titulo); font-size: 1.25rem; font-weight: 500; }
+  .projeto__nav-prox { text-align: right; justify-items: end; }
+
+  @media (max-width: 900px) {
+    .projeto__grade { grid-template-columns: 1fr; }
+    .projeto__lado { position: static; }
+  }
+  @media (max-width: 560px) {
+    .projeto__nav { grid-template-columns: 1fr; }
+    .projeto__nav-prox { text-align: left; justify-items: start; }
+  }
+</style>

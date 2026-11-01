@@ -1,0 +1,355 @@
+[
+  {
+    "slug": "furiozos",
+    "ordem": 1,
+    "destaque": true,
+    "ano": 2026,
+    "status": "online",
+    "categorias": ["web"],
+    "url": "https://atletica-furiozos.web.app",
+    "repo": "https://github.com/giorgiobazet/FurioZOs",
+    "preview": false,
+    "capa": { "tipo": "imagem", "src": "/img/projetos/furiozos" },
+    "tecnologias": ["JavaScript", "Tailwind CSS", "Firebase Auth", "Firestore", "Cloudflare Workers", "Mercado Pago API"],
+    "pt": {
+      "titulo": "FurioZOs",
+      "subtitulo": "Site oficial e loja da Atlética da UERJ Zona Oeste",
+      "resumo": "Site institucional com loja própria: login, carrinho e pagamento via Pix, com o back-end de pagamentos isolado num Cloudflare Worker.",
+      "descricao": [
+        "Site oficial da Atlética FurioZOs, da UERJ Zona Oeste: história, diretoria e a lojinha oficial de camisas personalizadas.",
+        "O front-end é estático e hospedado no Firebase. O cadastro e o login usam Firebase Authentication com verificação de e-mail, e os pedidos ficam no Firestore, protegidos por regras de acesso.",
+        "O pagamento passa pelo Mercado Pago, mas as credenciais nunca chegam ao navegador: quem conversa com a API de pagamento é um Cloudflare Worker, que valida cada pedido antes de cobrar."
+      ],
+      "destaques": [
+        "Pagamento via Pix com Mercado Pago, intermediado por um Worker na Cloudflare",
+        "Pagamento liberado só para contas com e-mail verificado",
+        "Rate limit na borda da Cloudflare contra abuso do checkout",
+        "Content Security Policy rígida e cabeçalhos de segurança no hosting",
+        "Adequação à LGPD: o CPF não fica salvo no perfil do aluno"
+      ]
+    },
+    "en": {
+      "titulo": "FurioZOs",
+      "subtitulo": "Official website and store for UERJ West Zone's athletics club",
+      "resumo": "Institutional website with its own store: sign-in, cart and Pix payments, with the payment back end isolated in a Cloudflare Worker.",
+      "descricao": [
+        "Official website of Atlética FurioZOs, the student athletics club at UERJ West Zone: its history, board and the official store for custom jerseys.",
+        "The front end is static and hosted on Firebase. Sign-up and sign-in use Firebase Authentication with email verification, and orders live in Firestore, guarded by access rules.",
+        "Payments go through Mercado Pago, but credentials never reach the browser: a Cloudflare Worker talks to the payment API and validates every order before charging."
+      ],
+      "destaques": [
+        "Pix payments with Mercado Pago, brokered by a Cloudflare Worker",
+        "Checkout only for accounts with a verified email",
+        "Edge rate limiting on Cloudflare against checkout abuse",
+        "Strict Content Security Policy and security headers on hosting",
+        "LGPD (Brazil's GDPR) compliance: national ID numbers are not stored on student profiles"
+      ]
+    }
+  },
+  {
+    "slug": "nology",
+    "ordem": 2,
+    "destaque": false,
+    "ano": 2026,
+    "status": "online",
+    "categorias": ["web", "python"],
+    "url": "https://desafio-nology-k7v7.vercel.app/",
+    "repo": "https://github.com/giorgiobazet/Desafio_Nology",
+    "preview": true,
+    "capa": { "tipo": "imagem", "src": "/img/projetos/nology" },
+    "tecnologias": ["Python", "FastAPI", "PostgreSQL", "SQLAlchemy", "JavaScript", "Vercel", "Render"],
+    "pt": {
+      "titulo": "Desafio Nology",
+      "subtitulo": "Calculadora de cashback full-stack",
+      "resumo": "Solução de um desafio técnico de estágio: API em FastAPI com PostgreSQL e front-end em JavaScript puro.",
+      "descricao": [
+        "Calculadora de cashback desenvolvida como desafio técnico para uma vaga de estágio em desenvolvimento.",
+        "O projeto foi dividido em duas partes: uma API em Python com FastAPI, hospedada no Render, e um front-end estático em HTML, CSS e JavaScript puro, hospedado na Vercel.",
+        "O histórico de consultas é salvo num PostgreSQL (Neon) com SQLAlchemy e filtrado pelo IP de quem usa."
+      ],
+      "destaques": [
+        "API e front-end separados, cada um na sua hospedagem",
+        "Regras de negócio aplicadas na ordem certa: desconto, cashback base, bônus VIP e promoção",
+        "Histórico persistido em PostgreSQL e filtrado por IP"
+      ],
+      "aviso": "A API roda em plano gratuito e dorme quando fica parada. A primeira consulta pode levar até um minuto."
+    },
+    "en": {
+      "titulo": "Nology Challenge",
+      "subtitulo": "Full-stack cashback calculator",
+      "resumo": "Solution to an internship coding challenge: a FastAPI back end with PostgreSQL and a vanilla JavaScript front end.",
+      "descricao": [
+        "Cashback calculator built as the technical challenge for a software development internship.",
+        "The project has two parts: a Python API built with FastAPI and hosted on Render, and a static front end in plain HTML, CSS and JavaScript hosted on Vercel.",
+        "Query history is stored in PostgreSQL (Neon) through SQLAlchemy and filtered by the user's IP address."
+      ],
+      "destaques": [
+        "API and front end decoupled, each on its own host",
+        "Business rules applied in the right order: discount, base cashback, VIP bonus and promotion",
+        "History persisted in PostgreSQL and filtered by IP"
+      ],
+      "aviso": "The API runs on a free tier and sleeps when idle. The first request may take up to a minute."
+    }
+  },
+  {
+    "slug": "ponteiros",
+    "ordem": 3,
+    "destaque": false,
+    "ano": 2026,
+    "status": "online",
+    "categorias": ["web", "c"],
+    "url": "https://giorgiobazet.github.io/Ponteiros/",
+    "repo": "https://github.com/giorgiobazet/Ponteiros",
+    "preview": true,
+    "capa": { "tipo": "imagem", "src": "/img/projetos/ponteiros" },
+    "tecnologias": ["JavaScript", "HTML", "CSS", "C"],
+    "pt": {
+      "titulo": "Simulador de Ponteiros",
+      "subtitulo": "Memória e ponteiros em C, de forma visual",
+      "resumo": "Ferramenta interativa para entender ponteiros: você declara variáveis, executa comandos em C e vê a memória mudar.",
+      "descricao": [
+        "Ponteiros são um dos assuntos que mais travam quem está aprendendo C. Este simulador mostra o que acontece na memória a cada instrução.",
+        "Você cria variáveis e ponteiros, digita comandos reais como px = &x; ou *px = 50; e acompanha endereços e valores sendo atualizados numa placa de memória RAM desenhada na tela."
+      ],
+      "destaques": [
+        "Interpreta comandos de atribuição, endereço (&) e desreferência (*)",
+        "Placa de memória visual com endereços e valores",
+        "Log de execução para acompanhar cada passo"
+      ]
+    },
+    "en": {
+      "titulo": "Pointer Simulator",
+      "subtitulo": "C memory and pointers, made visual",
+      "resumo": "Interactive tool for understanding pointers: declare variables, run C commands and watch memory change.",
+      "descricao": [
+        "Pointers are one of the hardest topics for people learning C. This simulator shows what happens in memory with every instruction.",
+        "You create variables and pointers, type real commands like px = &x; or *px = 50;, and watch addresses and values update on a RAM board drawn on screen."
+      ],
+      "destaques": [
+        "Interprets assignment, address-of (&) and dereference (*) commands",
+        "Visual memory board with addresses and values",
+        "Execution log to follow every step"
+      ]
+    }
+  },
+  {
+    "slug": "createcode",
+    "ordem": 4,
+    "destaque": false,
+    "ano": 2026,
+    "status": "academico",
+    "categorias": ["web", "academico"],
+    "url": "",
+    "repo": "https://github.com/giorgiobazet/CreateCode",
+    "preview": false,
+    "capa": { "tipo": "blocos" },
+    "tecnologias": ["HTML", "CSS", "JavaScript", "Programação em blocos"],
+    "pt": {
+      "titulo": "CreateCode",
+      "subtitulo": "Jogos em blocos para ensinar programação",
+      "resumo": "Projeto da faculdade: uma homepage que reúne jogos educativos criados por estudantes para ensinar crianças e adolescentes a programar.",
+      "descricao": [
+        "O CreateCode é um projeto acadêmico em que estudantes desenvolvem jogos educativos para alunos do Ensino Fundamental II e do Ensino Médio. O objetivo é desmistificar a programação.",
+        "Os jogos usam uma interface de blocos lógicos: o aluno monta a solução encaixando blocos e aprende os fundamentos da computação de forma visual. Eu desenvolvo a homepage que reúne e apresenta esses jogos, os eventos e a equipe."
+      ],
+      "destaques": [
+        "Aventura Lógica: laços de repetição e condicionais para escapar de um labirinto",
+        "Desafio das Variáveis: guardar e gerenciar dados enquanto coleta itens no mapa",
+        "Feito por alunos, para alunos"
+      ],
+      "aviso": "Em desenvolvimento. O código está no GitHub e o site ainda não foi publicado."
+    },
+    "en": {
+      "titulo": "CreateCode",
+      "subtitulo": "Block-based games that teach programming",
+      "resumo": "University project: a homepage gathering educational games built by students to teach kids and teenagers how to code.",
+      "descricao": [
+        "CreateCode is an academic project where university students build educational games for middle and high school students. The goal is to demystify programming.",
+        "The games use a logic-block interface: students build solutions by snapping blocks together and learn computing fundamentals visually. I develop the homepage that showcases the games, events and team."
+      ],
+      "destaques": [
+        "Logic Adventure: loops and conditionals to escape a maze",
+        "Variables Challenge: storing and managing data while collecting items on the map",
+        "Made by students, for students"
+      ],
+      "aviso": "In development. The code is on GitHub and the site has not been published yet."
+    }
+  },
+  {
+    "slug": "pacman-web",
+    "ordem": 5,
+    "destaque": false,
+    "ano": 2026,
+    "status": "online",
+    "categorias": ["web", "jogos"],
+    "url": "https://giorgiobazet.github.io/Pacman-Web/",
+    "repo": "https://github.com/giorgiobazet/Pacman-Web",
+    "preview": true,
+    "capa": { "tipo": "imagem", "src": "/img/projetos/pacman-web" },
+    "tecnologias": ["JavaScript", "Canvas", "HTML", "CSS"],
+    "pt": {
+      "titulo": "Pac-Man Web",
+      "subtitulo": "O clássico, jogável no navegador",
+      "resumo": "Recriação do Pac-Man em JavaScript, com fantasmas, pontuação e controles para teclado e celular.",
+
+      "descricao": [
+        "Versão web do Pac-Man feita do zero em JavaScript, desenhada em Canvas.",
+        "O jogo tem labirinto, quatro fantasmas, contagem de pontos e de pastilhas restantes, tela de fim de jogo e botões na tela para jogar pelo celular."
+      ],
+      "destaques": [
+        "Loop de jogo e colisões implementados à mão",
+        "Fantasmas com movimentação própria",
+        "Controles pelo teclado e botões na tela para celular"
+      ]
+    },
+    "en": {
+      "titulo": "Pac-Man Web",
+      "subtitulo": "The classic, playable in the browser",
+      "resumo": "Pac-Man rebuilt in JavaScript, with ghosts, scoring and controls for keyboard and mobile.",
+      "descricao": [
+        "A web version of Pac-Man built from scratch in JavaScript and drawn on Canvas.",
+        "It has a maze, four ghosts, score and remaining-pellet counters, a game over screen and on-screen buttons for playing on a phone."
+      ],
+      "destaques": [
+        "Hand-written game loop and collision detection",
+        "Ghosts with their own movement",
+        "Keyboard controls plus on-screen buttons for mobile"
+      ]
+    }
+  },
+  {
+    "slug": "pacman-c",
+    "ordem": 6,
+    "destaque": false,
+    "ano": 2026,
+    "status": "codigo",
+    "categorias": ["jogos", "c"],
+    "url": "",
+    "repo": "https://github.com/giorgiobazet/Pacman-em-C",
+    "preview": false,
+    "capa": {
+      "tipo": "codigo",
+      "arquivo": "pacman.c",
+      "trecho": "typedef struct {\n    Posicao pos;\n    char background_anterior;\n    int dir_x, dir_y;\n} Fantasma;\n\ntypedef struct {\n    char **grade;\n    int linhas, colunas;\n    int pontos_totais, pontos_coletados;\n} Mapa;"
+    },
+    "tecnologias": ["C", "Alocação dinâmica", "Terminal ANSI"],
+    "pt": {
+      "titulo": "Pac-Man em C",
+      "subtitulo": "O jogo rodando direto no terminal",
+      "resumo": "Pac-Man para terminal escrito em C, com mapas carregados de arquivos, fantasmas e cores ANSI.",
+      "descricao": [
+        "Antes da versão web, o Pac-Man nasceu em C, rodando no terminal.",
+        "Os labirintos são lidos de arquivos de texto e guardados numa grade alocada dinamicamente. O jogo lê o teclado sem precisar de Enter, usando termios, move os fantasmas e desenha tudo com cores ANSI."
+      ],
+      "destaques": [
+        "Cinco mapas carregados de arquivos",
+        "Grade do mapa com alocação dinâmica (char **)",
+        "Leitura de tecla em tempo real com termios (Linux e macOS)"
+      ]
+    },
+    "en": {
+      "titulo": "Pac-Man in C",
+      "subtitulo": "The game running right in the terminal",
+      "resumo": "Terminal Pac-Man written in C, with maps loaded from files, ghosts and ANSI colors.",
+      "descricao": [
+        "Before the web version, Pac-Man started out in C, running in the terminal.",
+        "Mazes are read from text files and stored in a dynamically allocated grid. The game reads the keyboard without waiting for Enter using termios, moves the ghosts and draws everything with ANSI colors."
+      ],
+      "destaques": [
+        "Five maps loaded from files",
+        "Dynamically allocated map grid (char **)",
+        "Real-time key input with termios (Linux and macOS)"
+      ]
+    }
+  },
+  {
+    "slug": "algoritmos-c",
+    "ordem": 7,
+    "destaque": false,
+    "ano": 2026,
+    "status": "codigo",
+    "categorias": ["c", "academico"],
+    "url": "",
+    "repo": "https://github.com/giorgiobazet/Algoritmos-C",
+    "preview": false,
+    "capa": {
+      "tipo": "codigo",
+      "arquivo": "algoritmo-40.c",
+      "trecho": "printf(\"\\nEntre com a idade: \");\nscanf(\"%d\", &idade);\n\nswitch(idade){\n    case 5: case 6: case 7:\n        printf(\"\\nInfantil A\\n\");\n    break;\n    case 8: case 9: case 10: case 11:\n        printf(\"\\nInfantil B\\n\");\n    break;"
+    },
+    "tecnologias": ["C", "Lógica de programação", "Estruturas de controle"],
+    "pt": {
+      "titulo": "Algoritmos em C",
+      "subtitulo": "Mais de 90 programas da faculdade",
+      "resumo": "Coleção de algoritmos, exercícios e aulas da graduação em Ciência da Computação na UERJ.",
+      "descricao": [
+        "Repositório com o que escrevi em C ao longo da graduação: mais de 90 programas entre algoritmos, listas de exercícios e código das aulas.",
+        "É a base de tudo: entrada e saída, condicionais, switch, laços e funções, escritos e testados um a um."
+      ],
+      "destaques": [
+        "48 algoritmos, 39 exercícios e 4 aulas",
+        "Organizado por tema e por lista",
+        "Ambiente de compilação e depuração configurado no VS Code"
+      ]
+    },
+    "en": {
+      "titulo": "Algorithms in C",
+      "subtitulo": "90+ programs from university",
+      "resumo": "A collection of algorithms, exercises and class code from my Computer Science degree at UERJ.",
+      "descricao": [
+        "A repository with everything I've written in C during my degree: more than 90 programs across algorithms, exercise sets and class code.",
+        "It's the foundation: input and output, conditionals, switch, loops and functions, written and tested one by one."
+      ],
+      "destaques": [
+        "48 algorithms, 39 exercises and 4 class files",
+        "Organized by topic and exercise set",
+        "Build and debug setup configured in VS Code"
+      ]
+    }
+  },
+  {
+    "slug": "python",
+    "ordem": 8,
+    "destaque": false,
+    "ano": 2026,
+    "status": "codigo",
+    "categorias": ["python", "academico"],
+    "url": "",
+    "repo": "https://github.com/giorgiobazet/Programando-em-Python",
+    "preview": false,
+    "capa": {
+      "tipo": "codigo",
+      "arquivo": "exececoes_personalizadas.py",
+      "trecho": "class MeuErroPersonalizado(Exception):\n    pass\n\ndef funcao(condicao):\n    if condicao:\n        raise MeuErroPersonalizado(\"Descrição do erro\")\n\ntry:\n    funcao(True)\nexcept MeuErroPersonalizado as e:\n    print(f\"Erro: {str(e)}\")"
+    },
+    "tecnologias": ["Python", "POO", "Manipulação de arquivos"],
+    "pt": {
+      "titulo": "Programando em Python",
+      "subtitulo": "Estudos do curso de Python do Santander",
+      "resumo": "Exercícios que cobrem a linguagem do básico a módulos, arquivos e exceções personalizadas.",
+      "descricao": [
+        "Python é a linguagem em que estou me aprofundando agora, com foco em automação e análise de dados.",
+        "Este repositório reúne os exercícios do curso de Python do Santander: tipos de dados, listas, tuplas, dicionários, conjuntos, funções e lambdas, módulos, leitura e escrita de arquivos e tratamento de exceções."
+      ],
+      "destaques": [
+        "Mais de 20 scripts, um por tema",
+        "Módulos próprios importados entre arquivos",
+        "Exceções personalizadas e manipulação de arquivos"
+      ]
+    },
+    "en": {
+      "titulo": "Programming in Python",
+      "subtitulo": "Coursework from Santander's Python course",
+      "resumo": "Exercises covering the language from the basics to modules, files and custom exceptions.",
+      "descricao": [
+        "Python is the language I'm going deeper into right now, focusing on automation and data analysis.",
+        "This repository collects my exercises from Santander's Python course: data types, lists, tuples, dictionaries, sets, functions and lambdas, modules, file I/O and exception handling."
+      ],
+      "destaques": [
+        "20+ scripts, one per topic",
+        "Custom modules imported across files",
+        "Custom exceptions and file handling"
+      ]
+    }
+  }
+]

@@ -1,0 +1,36 @@
+---
+import Base from '../layouts/Base.astro';
+import Intro from './Intro.astro';
+import Hero from './Hero.astro';
+import Faixa from './Faixa.astro';
+import Destaque from './Destaque.astro';
+import Projetos from './Projetos.astro';
+import Habilidades from './Habilidades.astro';
+import Principios from './Principios.astro';
+import Sobre from './Sobre.astro';
+import Trajetoria from './Trajetoria.astro';
+import Contato from './Contato.astro';
+import type { Idioma } from '../i18n/textos';
+
+interface Props {
+  lang: Idioma;
+}
+const { lang } = Astro.props;
+---
+
+<Base lang={lang} alternativo={lang === 'pt' ? '/en/' : '/'} intro>
+  <Intro slot="intro" lang={lang} />
+  <Hero lang={lang} />
+  <Faixa />
+  <Destaque lang={lang} />
+  <Projetos lang={lang} />
+  <div class="ornamento" aria-hidden="true"><span></span></div>
+  <Habilidades lang={lang} />
+  <div class="ornamento" aria-hidden="true"><span></span></div>
+  <Principios lang={lang} />
+  <div class="ornamento" aria-hidden="true"><span></span></div>
+  <Sobre lang={lang} />
+  <div class="ornamento" aria-hidden="true"><span></span></div>
+  <Trajetoria lang={lang} />
+  <Contato lang={lang} />
+</Base>

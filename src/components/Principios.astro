@@ -1,0 +1,92 @@
+---
+import Cabecalho from './Cabecalho.astro';
+import Icone from './Icone.astro';
+import { textos, type Idioma } from '../i18n/textos';
+
+interface Props {
+  lang: Idioma;
+}
+const { lang } = Astro.props;
+const t = textos[lang].principios;
+---
+
+<section class="secao secao--brilho-ouro" id="principios" aria-labelledby="principios-titulo">
+  <div class="container">
+    <Cabecalho id="principios-titulo" numero={t.numero} rotulo={t.titulo} frase1={t.frase1} frase2={t.frase2} />
+
+    <ol class="principios">
+      {
+        t.itens.map((item, i) => (
+          <li class="principio" data-revelar style={`--atraso:${i}`}>
+            <div class="principio__topo">
+              <span class="principio__icone">
+                <Icone nome={item.icone as 'escudo' | 'clareza' | 'livro'} tamanho={22} />
+              </span>
+              <span class="principio__num mono">0{i + 1}</span>
+            </div>
+            <h3>{item.titulo}</h3>
+            <p>{item.texto}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .principios {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+    counter-reset: p;
+  }
+  .principio {
+    position: relative;
+    padding: 30px 28px 32px;
+    border-radius: var(--raio-g);
+    background:
+      linear-gradient(180deg, rgba(18, 24, 36, 0.75), rgba(10, 13, 20, 0.75)) padding-box,
+      linear-gradient(160deg, rgba(198, 255, 61, 0.35), rgba(170, 195, 225, 0.08) 45%, rgba(62, 230, 255, 0.3)) border-box;
+    border: 1px solid transparent;
+    display: grid;
+    gap: 14px;
+    align-content: start;
+    overflow: hidden;
+    transition: transform 0.4s var(--ease), box-shadow 0.4s;
+  }
+  .principio::after {
+    content: '';
+    position: absolute;
+    right: -60px;
+    top: -60px;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(198, 255, 61, 0.16), transparent 70%);
+    pointer-events: none;
+  }
+  .principio:nth-child(2)::after { background: radial-gradient(circle, rgba(62, 230, 255, 0.16), transparent 70%); }
+  .principio:hover { transform: translateY(-4px); box-shadow: var(--sombra); }
+  .principio__topo { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .principio__icone {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    color: var(--acento);
+    background: var(--acento-fundo);
+    border: 1px solid rgba(198, 255, 61, 0.3);
+  }
+  .principio:nth-child(2) .principio__icone { color: var(--acento-2); background: var(--acento-2-fundo); border-color: rgba(62, 230, 255, 0.3); }
+  .principio__num { font-size: 0.8rem; color: var(--suave); letter-spacing: 0.1em; }
+  .principio h3 { font-size: 1.3rem; }
+  .principio p { color: var(--texto-2); font-size: 0.95rem; }
+
+  @media (max-width: 900px) {
+    .principios { grid-template-columns: 1fr; }
+  }
+</style>

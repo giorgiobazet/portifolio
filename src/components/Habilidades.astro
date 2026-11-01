@@ -1,0 +1,159 @@
+---
+import Cabecalho from './Cabecalho.astro';
+import { projetos } from '../data/projetos';
+import { textos, stack, rotas, type Idioma } from '../i18n/textos';
+
+interface Props {
+  lang: Idioma;
+}
+const { lang } = Astro.props;
+const t = textos[lang].habilidades;
+
+// Projetos em que a tecnologia aparece, a partir do projetos.json.
+function usadoEm(usa: readonly string[]) {
+  if (usa.includes('*')) return 'todos' as const;
+  return projetos.filter((p) => p.tecnologias.some((tec) => usa.includes(tec)));
+}
+---
+
+<section class="secao secao--brilho" id="stack" aria-labelledby="stack-titulo">
+  <div class="container">
+    <Cabecalho id="stack-titulo" numero={t.numero} rotulo={t.titulo} frase1={t.frase1} frase2={t.frase2} sub={t.subtitulo} />
+
+    <div class="grupos">
+      {
+        stack.map((grupo, g) => (
+          <div class="grupo hud" data-revelar style={`--atraso:${g}`}>
+            <p class="grupo__titulo mono">
+              <span>0{g + 1}</span>
+              {grupo.grupo[lang]}
+              <span class="grupo__qtd">{String(grupo.itens.length).padStart(2, '0')}</span>
+            </p>
+            <ul class="itens">
+              {grupo.itens.map((item) => {
+                const uso = usadoEm(item.usa);
+                return (
+                  <li class:list={['item', { 'item--ativo': uso === 'todos' || uso.length > 0 }]}>
+                    <span class="item__sigla mono" aria-hidden="true">{item.sigla}</span>
+                    <div class="item__corpo">
+                      <p class="item__nome">{item.nome}</p>
+                      <p class="item__desc">{item[lang]}</p>
+                      <p class="item__uso mono">
+                        {uso === 'todos' ? (
+                          <span class="item__tag item__tag--forte">{t.todos}</span>
+                        ) : uso.length ? (
+                          <>
+                            <span class="item__rotulo">{t.usadoEm}</span>
+                            {uso.map((p) => (
+                              <a class="item__tag" href={rotas[lang].projeto(p.slug)}>
+                                {p[lang].titulo}
+                              </a>
+                            ))}
+                          </>
+                        ) : (
+                          <span class="item__rotulo">{t.estudo}</span>
+                        )}
+                      </p>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="idiomas" data-revelar>
+      <p class="mono idiomas__titulo">{t.idiomas}</p>
+      {
+        t.idiomasLista.map(([idioma, nivel]) => (
+          <p class="idioma">
+            <span>{idioma}</span>
+            <span class="mono">{nivel}</span>
+          </p>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .grupos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; align-items: start; }
+  .grupo { padding: 22px 20px 12px; }
+  .grupo__titulo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 14px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid var(--linha);
+    font-size: 0.74rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--texto);
+  }
+  .grupo__titulo > span:first-child { color: var(--acento); }
+  .grupo__qtd { margin-left: auto; color: var(--suave); }
+
+  .itens { list-style: none; margin: 0; padding: 0; }
+  .item {
+    display: grid;
+    grid-template-columns: 46px minmax(0, 1fr);
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px dashed var(--linha);
+  }
+  .item:last-child { border-bottom: 0; }
+  .item__sigla {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--texto-2);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--linha-forte);
+    clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+    transition: background 0.25s, color 0.25s;
+  }
+  .item--ativo .item__sigla { color: var(--acento); background: var(--acento-fundo); border-color: rgba(198, 255, 61, 0.35); }
+  .item:hover .item__sigla { background: var(--acento); color: var(--sobre-acento); }
+  .item__nome { font-family: var(--fonte-titulo); font-size: 1rem; font-weight: 500; letter-spacing: -0.02em; }
+  .item__desc { margin-top: 3px; font-size: 0.86rem; color: var(--texto-2); line-height: 1.5; }
+  .item__uso { margin-top: 8px; display: flex; flex-wrap: wrap; align-items: center; gap: 5px; font-size: 0.66rem; }
+  .item__rotulo { color: var(--suave); letter-spacing: 0.08em; text-transform: uppercase; margin-right: 2px; }
+  .item__tag {
+    padding: 2px 7px;
+    border: 1px solid rgba(62, 230, 255, 0.3);
+    color: var(--acento-2);
+    background: var(--acento-2-fundo);
+    transition: background 0.2s, color 0.2s;
+  }
+  a.item__tag:hover { background: var(--acento-2); color: var(--bg); }
+  .item__tag--forte { border-color: rgba(198, 255, 61, 0.35); color: var(--acento); background: var(--acento-fundo); }
+
+  .idiomas {
+    margin-top: 18px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 32px;
+    padding: 18px 22px;
+    border: 1px solid var(--linha);
+    background: rgba(12, 16, 23, 0.6);
+  }
+  .idiomas__titulo { font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--acento); }
+  .idioma { display: flex; align-items: baseline; gap: 10px; }
+  .idioma span:first-child { font-family: var(--fonte-titulo); font-weight: 500; letter-spacing: -0.02em; }
+  .idioma .mono { font-size: 0.72rem; color: var(--texto-2); }
+
+  @media (max-width: 1000px) {
+    .grupos { grid-template-columns: 1fr 1fr; }
+    .grupo:last-child { grid-column: 1 / -1; }
+  }
+  @media (max-width: 680px) {
+    .grupos { grid-template-columns: 1fr; }
+  }
+</style>

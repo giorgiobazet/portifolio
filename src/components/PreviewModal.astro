@@ -1,0 +1,165 @@
+---
+import Icone from './Icone.astro';
+import { textos, type Idioma } from '../i18n/textos';
+
+interface Props {
+  lang: Idioma;
+}
+const { lang } = Astro.props;
+const t = textos[lang];
+const rotulos = lang === 'pt'
+  ? { desktop: 'Ver como computador', celular: 'Ver como celular', recarregar: 'Recarregar', abrir: 'Abrir em nova aba', fechar: 'Fechar' }
+  : { desktop: 'View as desktop', celular: 'View as phone', recarregar: 'Reload', abrir: 'Open in new tab', fechar: 'Close' };
+---
+
+<dialog class="preview" id="preview" aria-labelledby="preview-titulo">
+  <div class="preview__barra">
+    <span class="preview__luzes" aria-hidden="true"><i></i><i></i><i></i></span>
+    <div class="preview__url mono">
+      <span class="preview__cadeado" aria-hidden="true">●</span>
+      <span data-preview-endereco></span>
+    </div>
+    <div class="preview__acoes">
+      <button type="button" data-modo="desktop" aria-pressed="true" title={rotulos.desktop} aria-label={rotulos.desktop}><Icone nome="monitor" /></button>
+      <button type="button" data-modo="celular" aria-pressed="false" title={rotulos.celular} aria-label={rotulos.celular}><Icone nome="celular" /></button>
+      <button type="button" data-recarregar title={rotulos.recarregar} aria-label={rotulos.recarregar}><Icone nome="recarregar" /></button>
+      <a data-preview-externo target="_blank" rel="noopener noreferrer" title={rotulos.abrir} aria-label={rotulos.abrir}><Icone nome="externo" /></a>
+      <button type="button" data-fechar-preview title={rotulos.fechar} aria-label={rotulos.fechar}><Icone nome="fechar" /></button>
+    </div>
+  </div>
+  <h2 class="sr-only" id="preview-titulo"><span data-preview-titulo></span> · {t.projetos.preview}</h2>
+  <div class="preview__palco">
+    <iframe
+      data-preview-frame
+      title={t.projetos.preview}
+      referrerpolicy="no-referrer"
+      sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+    ></iframe>
+  </div>
+</dialog>
+
+<style>
+  .preview {
+    width: min(1200px, calc(100vw - 32px));
+    height: min(800px, calc(100dvh - 48px));
+    padding: 0;
+    border: 1px solid var(--linha-forte);
+    border-radius: 16px;
+    background: var(--bg-2);
+    color: var(--texto);
+    overflow: hidden;
+    box-shadow: 0 40px 120px -20px rgba(0, 0, 0, 0.85);
+  }
+  .preview[open] { display: flex; flex-direction: column; animation: surgir 0.25s var(--ease); }
+  .preview::backdrop { background: rgba(2, 3, 5, 0.7); backdrop-filter: blur(6px); }
+  @keyframes surgir { from { opacity: 0; transform: translateY(12px) scale(0.98); } }
+
+  .preview__barra {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--linha);
+    background: var(--superficie);
+  }
+  .preview__luzes { display: flex; gap: 6px; }
+  .preview__luzes i { width: 11px; height: 11px; border-radius: 50%; background: #263042; }
+  .preview__url {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    background: var(--bg);
+    border: 1px solid var(--linha);
+    font-size: 0.78rem;
+    color: var(--texto-2);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .preview__cadeado { color: var(--ok); font-size: 0.6rem; }
+  .preview__acoes { display: flex; gap: 4px; }
+  .preview__acoes > * {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    border: 0;
+    background: transparent;
+    color: var(--suave);
+  }
+  .preview__acoes > *:hover { background: var(--superficie-2); color: var(--texto); }
+  .preview__acoes [aria-pressed='true'] { color: var(--acento); background: var(--acento-fundo); }
+
+  .preview__palco {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    background:
+      radial-gradient(circle at 50% 0%, rgba(198, 255, 61, 0.06), transparent 60%),
+      var(--bg);
+    overflow: auto;
+  }
+  .preview__palco iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background: #fff;
+    transition: width 0.35s var(--ease);
+  }
+  .preview.celular .preview__palco { padding: 20px 0; }
+  .preview.celular iframe {
+    width: 390px;
+    max-width: 100%;
+    border-radius: 18px;
+    box-shadow: 0 0 0 8px #161d2a, 0 30px 60px -20px rgba(0, 0, 0, 0.8);
+  }
+  @media (max-width: 640px) {
+    .preview__luzes, [data-modo] { display: none !important; }
+    .preview { width: 100vw; height: 100dvh; max-width: 100vw; max-height: 100dvh; border-radius: 0; }
+  }
+</style>
+
+<script>
+  const dialogo = document.getElementById('preview') as HTMLDialogElement;
+  const frame = dialogo.querySelector<HTMLIFrameElement>('[data-preview-frame]')!;
+  const endereco = dialogo.querySelector<HTMLElement>('[data-preview-endereco]')!;
+  const titulo = dialogo.querySelector<HTMLElement>('[data-preview-titulo]')!;
+  const externo = dialogo.querySelector<HTMLAnchorElement>('[data-preview-externo]')!;
+  const modos = dialogo.querySelectorAll<HTMLButtonElement>('[data-modo]');
+
+  function abrir(url: string, nome: string) {
+    endereco.textContent = url.replace(/^https?:\/\//, '');
+    titulo.textContent = nome;
+    externo.href = url;
+    frame.src = url;
+    dialogo.showModal();
+  }
+
+  document.addEventListener('click', (e) => {
+    const botao = (e.target as HTMLElement).closest<HTMLElement>('[data-preview-url]');
+    if (!botao) return;
+    e.preventDefault();
+    abrir(botao.dataset.previewUrl!, botao.dataset.previewTitulo ?? '');
+  });
+
+  modos.forEach((b) =>
+    b.addEventListener('click', () => {
+      modos.forEach((m) => m.setAttribute('aria-pressed', String(m === b)));
+      dialogo.classList.toggle('celular', b.dataset.modo === 'celular');
+    }),
+  );
+  dialogo.querySelector('[data-recarregar]')!.addEventListener('click', () => {
+    frame.src = frame.src;
+  });
+  dialogo.querySelector('[data-fechar-preview]')!.addEventListener('click', () => dialogo.close());
+  dialogo.addEventListener('click', (e) => e.target === dialogo && dialogo.close());
+  // Descarrega o site ao fechar, para não ficar rodando em segundo plano.
+  dialogo.addEventListener('close', () => {
+    frame.removeAttribute('src');
+  });
+</script>

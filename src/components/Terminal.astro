@@ -1,0 +1,140 @@
+---
+import Icone from './Icone.astro';
+import { projetos } from '../data/projetos';
+import { textos, contato, rotas, stack, type Idioma } from '../i18n/textos';
+
+interface Props {
+  lang: Idioma;
+}
+const { lang } = Astro.props;
+const t = textos[lang];
+
+// Dados que o terminal usa no navegador. Vão como JSON (não é executado),
+// o que mantém a Content Security Policy sem scripts inline.
+const dados = {
+  lang,
+  home: rotas[lang].home,
+  outroIdioma: lang === 'pt' ? '/en/' : '/',
+  contato,
+  bio: t.sobre.bio,
+  habilidades: stack.map((g) => ({ grupo: g.grupo[lang], itens: g.itens.map((i) => i.nome) })),
+  projetos: projetos.map((p) => ({
+      slug: p.slug,
+      titulo: p[lang].titulo,
+      resumo: p[lang].resumo,
+      url: p.url,
+      repo: p.repo,
+      pagina: rotas[lang].projeto(p.slug),
+    })),
+};
+const json = JSON.stringify(dados).replace(/</g, '\\u003c');
+---
+
+<dialog class="terminal" id="terminal" aria-labelledby="terminal-titulo">
+  <div class="terminal__barra">
+    <span class="terminal__luzes" aria-hidden="true"><i></i><i></i><i></i></span>
+    <span class="terminal__titulo mono" id="terminal-titulo">giorgio@portfolio: ~</span>
+    <button class="terminal__fechar" type="button" data-fechar-terminal aria-label={t.terminal.fechar}>
+      <Icone nome="fechar" />
+    </button>
+  </div>
+  <div class="terminal__saida mono" data-saida aria-live="polite"></div>
+  <form class="terminal__linha mono" data-form>
+    <label for="terminal-entrada" class="terminal__prompt">❯</label>
+    <input
+      id="terminal-entrada"
+      data-entrada
+      type="text"
+      autocomplete="off"
+      autocapitalize="off"
+      spellcheck="false"
+      placeholder={t.terminal.placeholder}
+    />
+  </form>
+</dialog>
+<script type="application/json" id="dados-terminal" set:html={json} />
+
+<style>
+  .terminal {
+    width: min(760px, calc(100vw - 32px));
+    height: min(520px, calc(100dvh - 64px));
+    padding: 0;
+    border: 1px solid var(--linha-forte);
+    border-radius: 16px;
+    background: rgba(4, 6, 9, 0.94);
+    color: var(--texto);
+    box-shadow: 0 40px 120px -20px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(198, 255, 61, 0.08);
+    overflow: hidden;
+  }
+  .terminal[open] { display: flex; flex-direction: column; animation: surgir 0.25s var(--ease); }
+  .terminal::backdrop { background: rgba(2, 3, 5, 0.6); backdrop-filter: blur(4px); }
+  @keyframes surgir { from { opacity: 0; transform: translateY(12px) scale(0.98); } }
+
+  .terminal__barra {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--linha);
+    background: rgba(12, 16, 23, 0.9);
+  }
+  .terminal__luzes { display: flex; gap: 6px; }
+  .terminal__luzes i { width: 11px; height: 11px; border-radius: 50%; background: #263042; }
+  .terminal__luzes i:first-child { background: #e5645b; }
+  .terminal__luzes i:nth-child(2) { background: var(--acento-2); }
+  .terminal__luzes i:nth-child(3) { background: var(--acento); }
+  .terminal__titulo { flex: 1; text-align: center; font-size: 0.78rem; color: var(--suave); }
+  .terminal__fechar {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    border: 0;
+    background: transparent;
+    color: var(--suave);
+  }
+  .terminal__fechar:hover { background: var(--superficie-2); color: var(--texto); }
+
+  .terminal__saida {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px 18px 8px;
+    font-size: 0.85rem;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .terminal__linha {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 18px 16px;
+    border-top: 1px solid var(--linha);
+  }
+  .terminal__prompt { color: var(--acento); }
+  .terminal__linha input {
+    flex: 1;
+    min-width: 0;
+    background: transparent;
+    border: 0;
+    outline: 0;
+    color: var(--texto);
+    font: inherit;
+    font-size: 0.9rem;
+  }
+  .terminal__linha input::placeholder { color: var(--suave); opacity: 0.7; }
+
+  :global(.t-cmd) { color: var(--texto); }
+  :global(.t-cmd::before) { content: '❯ '; color: var(--acento); }
+  :global(.t-suave) { color: var(--suave); }
+  :global(.t-acento) { color: var(--acento); }
+  :global(.t-ciano) { color: var(--acento-2); }
+  :global(.t-erro) { color: #f08a80; }
+  :global(.terminal__saida a) { color: var(--acento); text-decoration: underline; text-underline-offset: 3px; }
+</style>
+
+<script>
+  import { iniciarTerminal } from '../scripts/terminal';
+  iniciarTerminal();
+</script>

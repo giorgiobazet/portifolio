@@ -1,0 +1,127 @@
+---
+import ProjetoCard from './ProjetoCard.astro';
+import Cabecalho from './Cabecalho.astro';
+import { projetos } from '../data/projetos';
+import { textos, type Idioma } from '../i18n/textos';
+
+interface Props {
+  lang: Idioma;
+}
+const { lang } = Astro.props;
+const t = textos[lang].projetos;
+// O destaque já aparece em cima; a grade mostra os demais.
+const lista = projetos.filter((p) => !p.destaque);
+const filtros = Object.entries(t.filtros).filter(
+  ([chave]) => chave === 'todos' || lista.some((p) => p.categorias.includes(chave)),
+);
+---
+
+<section class="secao" id="projetos" aria-labelledby="projetos-titulo">
+  <div class="container">
+    <Cabecalho
+      id="projetos-titulo"
+      numero={t.numero}
+      rotulo={t.titulo}
+      frase1={t.frase1}
+      frase2={t.frase2}
+      sub={t.subtitulo}
+    />
+
+    <div class="filtros" role="group" aria-label={lang === 'pt' ? 'Filtrar projetos' : 'Filter projects'} data-revelar>
+      {
+        filtros.map(([chave, rotulo], i) => (
+          <button type="button" class="filtro" data-filtro={chave} aria-pressed={i === 0 ? 'true' : 'false'}>
+            {rotulo}
+            <span class="filtro__qtd mono">
+              {chave === 'todos' ? lista.length : lista.filter((p) => p.categorias.includes(chave)).length}
+            </span>
+          </button>
+        ))
+      }
+    </div>
+
+    <div class="grade" data-grade>
+      {lista.map((p, i) => <ProjetoCard projeto={p} numero={i + 2} lang={lang} />)}
+      <article class="card-proximo" data-categorias="todos" data-revelar>
+        <span class="card-proximo__mais" aria-hidden="true">+</span>
+        <h3>{t.proximo.titulo}</h3>
+        <p>{t.proximo.texto}</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .filtros { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
+  .filtro {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 3px;
+    border: 1px solid var(--linha);
+    background: transparent;
+    color: var(--texto-2);
+    font-size: 0.88rem;
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+  }
+  .filtro:hover { border-color: var(--linha-forte); color: var(--texto); }
+  .filtro[aria-pressed='true'] { background: var(--acento-fundo); border-color: rgba(198, 255, 61, 0.5); color: var(--acento-forte); }
+  .filtro__qtd { font-size: 0.7rem; color: var(--suave); }
+  .filtro[aria-pressed='true'] .filtro__qtd { color: var(--acento); }
+
+  .grade {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 330px), 1fr));
+    gap: 22px;
+  }
+
+  .card-proximo {
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: 8px;
+    min-height: 280px;
+    padding: 32px;
+    text-align: center;
+    border-radius: var(--raio-g);
+    border: 1px dashed var(--linha-forte);
+    color: var(--suave);
+  }
+  .card-proximo[hidden] { display: none; }
+  .card-proximo h3 { font-size: 1.15rem; color: var(--texto-2); }
+  .card-proximo p { font-size: 0.9rem; }
+  .card-proximo__mais {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid var(--linha-forte);
+    font-size: 1.5rem;
+    color: var(--acento-2);
+    margin-bottom: 8px;
+  }
+</style>
+
+<script>
+  const botoes = document.querySelectorAll<HTMLButtonElement>('[data-filtro]');
+  const grade = document.querySelector<HTMLElement>('[data-grade]')!;
+
+  botoes.forEach((botao) =>
+    botao.addEventListener('click', () => {
+      const filtro = botao.dataset.filtro!;
+      botoes.forEach((b) => b.setAttribute('aria-pressed', String(b === botao)));
+      grade.querySelectorAll<HTMLElement>('[data-categorias]').forEach((card) => {
+        const categorias = card.dataset.categorias!.split(' ');
+        const mostrar = filtro === 'todos' || categorias.includes(filtro);
+        card.hidden = !mostrar;
+        if (mostrar) {
+          // Reapresenta o card com a animação de entrada.
+          card.classList.remove('visivel');
+          requestAnimationFrame(() => requestAnimationFrame(() => card.classList.add('visivel')));
+        }
+      });
+    }),
+  );
+</script>

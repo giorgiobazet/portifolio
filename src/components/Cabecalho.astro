@@ -1,0 +1,61 @@
+---
+// Cabeçalho de seção: "[01] // PROJETOS", título com a parte final em destaque
+// e o número grande vazado ao fundo como ornamento.
+interface Props {
+  id: string;
+  numero: string;
+  rotulo: string;
+  frase1: string;
+  frase2: string;
+  sub?: string;
+}
+const { id, numero, rotulo, frase1, frase2, sub } = Astro.props;
+---
+
+<header class="cabecalho">
+  <span class="cabecalho__fundo" aria-hidden="true">{numero}</span>
+  <p class="cabecalho__numero mono" data-revelar>
+    <span class="cabecalho__id">[{numero}]</span>
+    <span class="cabecalho__traco" aria-hidden="true"></span>
+    <span>{rotulo.toUpperCase()}</span>
+  </p>
+  <h2 class="cabecalho__titulo" id={id} data-revelar style="--atraso:1">
+    {frase1} <span class="realce">{frase2}</span>
+  </h2>
+  {sub && <p class="cabecalho__sub" data-revelar style="--atraso:2">{sub}</p>}
+</header>
+
+<style>
+  .cabecalho { position: relative; margin-bottom: clamp(40px, 6vw, 64px); display: grid; gap: 20px; }
+  .cabecalho__fundo {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    translate: 0 -55%;
+    font-family: var(--fonte-titulo);
+    font-weight: 600;
+    font-size: clamp(6rem, 16vw, 13rem);
+    line-height: 1;
+    letter-spacing: -0.06em;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(170, 195, 225, 0.1);
+    pointer-events: none;
+    user-select: none;
+  }
+  .cabecalho__numero {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.74rem;
+    letter-spacing: 0.18em;
+    color: var(--suave);
+  }
+  .cabecalho__id { color: var(--acento); }
+  .cabecalho__traco { width: 40px; height: 1px; background: linear-gradient(90deg, var(--acento), transparent); }
+  .cabecalho__titulo { position: relative; font-size: clamp(2rem, 4.6vw, 3.4rem); max-width: 20ch; letter-spacing: -0.045em; }
+  .cabecalho__sub { position: relative; color: var(--texto-2); max-width: 58ch; font-size: 1.05rem; }
+
+  @media (max-width: 640px) {
+    .cabecalho__fundo { top: 0; translate: 0 -20%; }
+  }
+</style>

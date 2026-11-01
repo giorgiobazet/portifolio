@@ -1,0 +1,50 @@
+---
+// Faixa que corre com as tecnologias, logo abaixo do topo.
+import { faixaStack } from '../i18n/textos';
+const itens = [...faixaStack, ...faixaStack];
+---
+
+<div class="faixa" aria-hidden="true">
+  <div class="faixa__trilho">
+    {
+      itens.map((item) => (
+        <span class="faixa__item">
+          {item}
+          <i>✦</i>
+        </span>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .faixa {
+    position: relative;
+    overflow: hidden;
+    padding: 22px 0;
+    border-block: 1px solid var(--linha);
+    background: linear-gradient(90deg, rgba(198, 255, 61, 0.04), rgba(62, 230, 255, 0.04));
+    mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+  }
+  .faixa__trilho {
+    display: flex;
+    width: max-content;
+    animation: correr 48s linear infinite;
+  }
+  .faixa:hover .faixa__trilho { animation-play-state: paused; }
+  .faixa__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 28px;
+    padding-right: 28px;
+    font-family: var(--fonte-titulo);
+    font-size: clamp(1rem, 2vw, 1.35rem);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--texto-2);
+    white-space: nowrap;
+  }
+  .faixa__item i { font-style: normal; font-size: 0.7em; color: var(--acento-2); }
+  @keyframes correr { to { transform: translateX(-50%); } }
+</style>

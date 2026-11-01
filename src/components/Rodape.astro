@@ -1,0 +1,96 @@
+---
+import Icone from './Icone.astro';
+import { textos, contato, rotas, type Idioma } from '../i18n/textos';
+
+interface Props {
+  lang: Idioma;
+}
+const { lang } = Astro.props;
+const t = textos[lang];
+const home = rotas[lang].home;
+const ano = new Date().getFullYear();
+---
+
+<footer class="rodape">
+  <div class="container">
+    <div class="rodape__topo">
+      <div class="rodape__marca">
+        <p class="rodape__nome">Giorgio <span class="realce">Bazet</span></p>
+        <p class="rodape__frase">{t.rodape.frase}</p>
+      </div>
+      <nav class="rodape__coluna" aria-label={t.rodape.navegar}>
+        <p class="rotulo">{t.rodape.navegar}</p>
+        <a href={`${home}#projetos`}>{t.nav.projetos}</a>
+        <a href={`${home}#sobre`}>{t.nav.sobre}</a>
+        <a href={`${home}#trajetoria`}>{t.nav.trajetoria}</a>
+        <a href={`${home}#contato`}>{t.nav.contato}</a>
+      </nav>
+      <nav class="rodape__coluna" aria-label={t.rodape.redes}>
+        <p class="rotulo">{t.rodape.redes}</p>
+        <a href={`mailto:${contato.email}`}>E-mail</a>
+        <a href={contato.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href={contato.github} target="_blank" rel="noopener noreferrer">GitHub</a>
+      </nav>
+    </div>
+
+    <div class="rodape__base">
+      <p>© {ano} Giorgio Bazet · {t.rodape.feito}</p>
+      <p class="rodape__dica mono">{t.rodape.terminal}</p>
+      <a class="rodape__topo-link" href="#conteudo"><Icone nome="topo" /> {t.rodape.topo}</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .rodape {
+    position: relative;
+    margin-top: 40px;
+    padding: 72px 0 36px;
+    border-top: 1px solid var(--linha);
+    background: linear-gradient(180deg, transparent, rgba(10, 13, 20, 0.8));
+  }
+  .rodape::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 50%;
+    translate: -50% 0;
+    width: min(600px, 80%);
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--acento), var(--acento-2), transparent);
+  }
+  .rodape__topo {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr);
+    gap: 40px;
+    padding-bottom: 48px;
+  }
+  .rodape__nome { font-family: var(--fonte-titulo); font-size: clamp(2.2rem, 5vw, 3.4rem); font-weight: 600; letter-spacing: -0.04em; line-height: 1; }
+  .rodape__nome .realce { font-size: 1.1em; }
+  .rodape__frase { margin-top: 14px; color: var(--suave); max-width: 36ch; }
+  .rodape__coluna { display: grid; align-content: start; gap: 10px; font-size: 0.95rem; color: var(--texto-2); }
+  .rodape__coluna .rotulo { margin-bottom: 6px; }
+  .rodape__coluna a { width: max-content; transition: color 0.2s; }
+  .rodape__coluna a:hover { color: var(--acento); }
+
+  .rodape__base {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding-top: 24px;
+    border-top: 1px solid var(--linha);
+    font-size: 0.82rem;
+    color: var(--suave);
+  }
+  .rodape__dica { font-size: 0.74rem; }
+  .rodape__topo-link { display: inline-flex; align-items: center; gap: 8px; transition: color 0.2s; }
+  .rodape__topo-link:hover { color: var(--acento); }
+
+  @media (max-width: 760px) {
+    .rodape__topo { grid-template-columns: 1fr 1fr; }
+    .rodape__marca { grid-column: 1 / -1; }
+    .rodape__dica { display: none; }
+  }
+</style>

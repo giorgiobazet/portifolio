@@ -1,0 +1,216 @@
+---
+import Icone from './Icone.astro';
+import { projetos } from '../data/projetos';
+import { textos, type Idioma } from '../i18n/textos';
+
+interface Props {
+  lang: Idioma;
+}
+const { lang } = Astro.props;
+const t = textos[lang];
+const metricas =
+  lang === 'pt'
+    ? [
+        [String(projetos.length).padStart(2, '0'), 'projetos'],
+        ['90+', 'programas em C'],
+        ['02', 'graduações'],
+      ]
+    : [
+        [String(projetos.length).padStart(2, '0'), 'projects'],
+        ['90+', 'programs in C'],
+        ['02', 'degrees'],
+      ];
+---
+
+<section class="hero">
+  <div class="container hero__grade">
+    <div class="hero__texto">
+      <p class="hero__selo mono" data-revelar><span class="status status--online"></span>{t.hero.selo}</p>
+      <h1 class="hero__titulo" data-revelar style="--atraso:1">
+        {t.hero.linhas.map((l) => <span class="hero__linha">{l}</span>)}
+        <span class="hero__linha realce">{t.hero.realce}</span>
+      </h1>
+      <p class="hero__lead" data-revelar style="--atraso:2">{t.hero.texto}</p>
+      <div class="hero__ctas" data-revelar style="--atraso:3">
+        <a class="btn btn--primario" href="#projetos">{t.hero.ctaProjetos} <Icone nome="direita" /></a>
+        <button class="btn" type="button" data-abrir-terminal><Icone nome="terminal" /> {t.hero.ctaTerminal}</button>
+        <span class="hero__dica mono">{t.hero.dica} <kbd>Ctrl</kbd> <kbd>K</kbd></span>
+      </div>
+      <dl class="metricas" data-revelar style="--atraso:4">
+        {
+          metricas.map(([valor, rotulo]) => (
+            <div>
+              <dd>{valor}</dd>
+              <dt>{rotulo}</dt>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+
+    <div class="retrato hud hud--ativo" data-revelar style="--atraso:2" data-inclinar="4">
+      <div class="retrato__barra mono">
+        <span>ID // GIORGIO.BAZET</span>
+        <span class="retrato__rec">REC</span>
+      </div>
+      <figure class="retrato__foto">
+        <img src="/img/giorgio.webp" alt={t.sobre.foto} width="640" height="800" fetchpriority="high" />
+        <span class="retrato__varredura" aria-hidden="true"></span>
+        <span class="mira mira--se" aria-hidden="true"></span>
+        <span class="mira mira--sd" aria-hidden="true"></span>
+        <span class="mira mira--ie" aria-hidden="true"></span>
+        <span class="mira mira--id" aria-hidden="true"></span>
+      </figure>
+      <dl class="retrato__leituras mono">
+        {
+          t.hero.leituras.map(([chave, valor]) => (
+            <div>
+              <dt>{chave}</dt>
+              <dd>{valor}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </div>
+
+  <a class="hero__rolar mono" href="#destaque" aria-label={lang === 'pt' ? 'Rolar para baixo' : 'Scroll down'}>
+    scroll <span></span>
+  </a>
+</section>
+
+<style>
+  .hero {
+    min-height: 100svh;
+    display: grid;
+    align-items: center;
+    padding: 120px 0 100px;
+    position: relative;
+  }
+  .hero__grade {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+    gap: clamp(40px, 6vw, 96px);
+    align-items: center;
+  }
+  .hero__selo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 14px 7px 12px;
+    border: 1px solid rgba(198, 255, 61, 0.3);
+    background: var(--acento-fundo);
+    font-size: 0.74rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--texto);
+    margin-bottom: 32px;
+  }
+  .hero__titulo { font-size: clamp(2.1rem, 4.6vw, 4rem); font-weight: 500; line-height: 1.04; letter-spacing: -0.045em; }
+  .hero__linha { display: block; }
+  .hero__lead { margin-top: 30px; max-width: 50ch; font-size: clamp(1rem, 1.5vw, 1.12rem); color: var(--texto-2); }
+  .hero__ctas { margin-top: 36px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+  .hero__dica { color: var(--suave); font-size: 0.76rem; margin-left: 6px; }
+
+  .metricas {
+    margin: 48px 0 0;
+    display: flex;
+    gap: 0;
+    border-top: 1px solid var(--linha);
+    max-width: 520px;
+  }
+  .metricas div { flex: 1; min-width: 0; padding: 18px 12px 0 0; }
+  .metricas div + div { padding-left: clamp(10px, 3vw, 18px); border-left: 1px solid var(--linha); }
+  .metricas dd { margin: 0; font-family: var(--fonte-titulo); font-size: clamp(1.3rem, 4vw, 1.7rem); font-weight: 500; letter-spacing: -0.04em; color: var(--texto); }
+  .metricas div:first-child dd { color: var(--acento); }
+  .metricas dt { font-family: var(--fonte-mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--suave); }
+
+  /* ---------- Retrato em painel HUD ---------- */
+  .retrato {
+    --corte: 22px;
+    justify-self: center;
+    width: min(100%, 400px);
+    padding: 14px;
+    box-shadow: 0 0 120px -40px rgba(198, 255, 61, 0.35);
+    transition: transform 0.4s var(--ease);
+  }
+  .retrato__barra {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 6px 12px 10px;
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    color: var(--suave);
+  }
+  .retrato__rec { display: inline-flex; align-items: center; gap: 6px; color: var(--acento); }
+  .retrato__rec::before { content: ''; width: 7px; height: 7px; background: var(--acento); animation: pulso 1.6s infinite; }
+
+  .retrato__foto { position: relative; margin: 0; overflow: hidden; }
+  .retrato__foto img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    filter: saturate(0.9) contrast(1.05);
+  }
+  .retrato__foto::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.12) 0 1px, transparent 1px 3px),
+      linear-gradient(180deg, transparent 60%, rgba(4, 6, 9, 0.55));
+    pointer-events: none;
+  }
+  .retrato__varredura {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 30%;
+    top: -30%;
+    background: linear-gradient(180deg, transparent, rgba(198, 255, 61, 0.14) 85%, rgba(198, 255, 61, 0.55) 100%);
+    animation: varrer 5s ease-in-out infinite;
+    z-index: 1;
+  }
+  @keyframes varrer { 0% { top: -30%; } 60%, 100% { top: 100%; } }
+
+  .mira { position: absolute; z-index: 2; width: 18px; height: 18px; border: 0 solid var(--acento); }
+  .mira--se { top: 10px; left: 10px; border-top-width: 2px; border-left-width: 2px; }
+  .mira--sd { top: 10px; right: 10px; border-top-width: 2px; border-right-width: 2px; }
+  .mira--ie { bottom: 10px; left: 10px; border-bottom-width: 2px; border-left-width: 2px; }
+  .mira--id { bottom: 10px; right: 10px; border-bottom-width: 2px; border-right-width: 2px; }
+
+  .retrato__leituras { margin: 12px 0 0; display: grid; gap: 1px; font-size: 0.74rem; }
+  .retrato__leituras div {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 8px 10px;
+    background: rgba(255, 255, 255, 0.02);
+  }
+  .retrato__leituras dt { color: var(--suave); text-transform: uppercase; letter-spacing: 0.12em; }
+  .retrato__leituras dd { margin: 0; color: var(--texto); text-align: right; }
+  .retrato__leituras div:first-child dd { color: var(--acento); }
+
+  .hero__rolar {
+    position: absolute;
+    left: 50%;
+    bottom: 26px;
+    translate: -50% 0;
+    display: grid;
+    justify-items: center;
+    gap: 8px;
+    font-size: 0.66rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--suave);
+  }
+  .hero__rolar span { width: 1px; height: 36px; background: linear-gradient(var(--acento), transparent); animation: descer 1.8s infinite; transform-origin: top; }
+  @keyframes descer { 0% { transform: scaleY(0); } 50% { transform: scaleY(1); } 100% { transform: scaleY(1); opacity: 0; } }
+
+  @media (max-width: 900px) {
+    .hero__grade { grid-template-columns: 1fr; }
+    .hero__dica, .hero__rolar { display: none; }
+    .retrato { width: min(100%, 360px); }
+  }
+</style>
