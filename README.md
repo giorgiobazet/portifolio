@@ -50,17 +50,19 @@ Para uma foto nova, acrescente um item em `FOTOS` com o recorte e a área nítid
 
 Bio, habilidades, trajetória, contato e todos os textos fixos ficam em `src/i18n/textos.ts`.
 
-## Publicar na Cloudflare Pages
+## Publicar
 
-1. Suba este repositório para o GitHub.
-2. No painel da Cloudflare: **Workers & Pages → Create → Pages → Connect to Git**.
-3. Escolha o repositório e use:
-   - Framework preset: **Astro**
-   - Build command: `npm run build`
-   - Output directory: `dist`
-4. Cada `git push` publica de novo, sozinho.
+O site é estático e roda no Cloudflare Pages, projeto `giorgiobazet`:
+https://giorgiobazet.pages.dev
 
-Quando tiver domínio próprio, troque `site` em `astro.config.mjs`.
+```bash
+npm run deploy
+```
+
+Isso gera o build e publica uma nova versão. Precisa estar logado na Cloudflare (`npx wrangler login`).
+
+Quando tiver domínio próprio, ligue-o no painel da Cloudflare
+(**Workers & Pages → giorgiobazet → Custom domains**) e troque `site` em `astro.config.mjs`.
 
 ## Segurança
 

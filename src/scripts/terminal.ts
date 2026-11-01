@@ -1,4 +1,5 @@
 // Terminal interativo: navega pelo portfólio com comandos (PT e EN).
+import { rolarPara } from './rolagem';
 
 type Projeto = { slug: string; titulo: string; resumo: string; url: string; repo: string; pagina: string };
 type Dados = {
@@ -199,7 +200,7 @@ export function iniciarTerminal() {
         if (!secao) return escrever(Object.values(t.secoes).join(' · '), 't-suave');
         dialogo!.close();
         const alvo = document.getElementById(secao);
-        if (alvo) alvo.scrollIntoView({ behavior: 'smooth' });
+        if (alvo) rolarPara(alvo);
         else window.location.href = `${dados.home}#${secao}`;
         break;
       }

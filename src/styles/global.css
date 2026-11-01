@@ -39,8 +39,8 @@
 *::before,
 *::after { box-sizing: border-box; }
 
+/* A rolagem suave dos links internos é feita em scripts/rolagem.ts. */
 html {
-  scroll-behavior: smooth;
   scroll-padding-top: 88px;
   -webkit-text-size-adjust: 100%;
 }

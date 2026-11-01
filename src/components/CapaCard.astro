@@ -1,0 +1,128 @@
+---
+// Capa composta dos cards: fundo com a cor do projeto e uma janela de
+// navegador (ou editor) em perspectiva, com o print ou o código dentro.
+import Capa from './Capa.astro';
+import { textos, type Idioma } from '../i18n/textos';
+import type { Projeto } from '../data/projetos';
+
+interface Props {
+  projeto: Projeto;
+  numero: number;
+  lang: Idioma;
+}
+const { projeto: p, numero, lang } = Astro.props;
+const filtros = textos[lang].projetos.filtros;
+const categoria = p.categorias.map((c) => filtros[c as keyof typeof filtros] ?? c).join(' · ');
+const endereco = (p.url || p.repo).replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+---
+
+<div class="arte" style={`--cor:${p.cor}`}>
+  <span class="arte__brilho" aria-hidden="true"></span>
+  <span class="arte__tag mono">[{String(numero).padStart(3, '0')}] {categoria}</span>
+  <span class="arte__ano mono">{p.ano}</span>
+
+  <div class="arte__janela">
+    <div class="arte__barra mono" aria-hidden="true">
+      <i></i><i></i><i></i>
+      <span>{endereco}</span>
+    </div>
+    <Capa capa={p.capa} titulo={p[lang].titulo} />
+  </div>
+</div>
+
+<style>
+  .arte {
+    position: relative;
+    aspect-ratio: 16 / 11;
+    overflow: hidden;
+    isolation: isolate;
+    background:
+      radial-gradient(120% 90% at 85% 0%, color-mix(in srgb, var(--cor) 28%, transparent), transparent 60%),
+      linear-gradient(160deg, #0d121b, #06080c);
+  }
+  /* Grade fina com a cor do projeto. */
+  .arte::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-image:
+      linear-gradient(color-mix(in srgb, var(--cor) 14%, transparent) 1px, transparent 1px),
+      linear-gradient(90deg, color-mix(in srgb, var(--cor) 14%, transparent) 1px, transparent 1px);
+    background-size: 28px 28px;
+    mask-image: radial-gradient(ellipse at 70% 20%, #000 10%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse at 70% 20%, #000 10%, transparent 75%);
+  }
+  .arte__brilho {
+    position: absolute;
+    z-index: -1;
+    width: 60%;
+    aspect-ratio: 1;
+    right: -10%;
+    bottom: -30%;
+    border-radius: 50%;
+    background: radial-gradient(circle, color-mix(in srgb, var(--cor) 35%, transparent), transparent 65%);
+    filter: blur(10px);
+    transition: transform 0.7s var(--ease), opacity 0.7s;
+    opacity: 0.7;
+  }
+
+  .arte__tag,
+  .arte__ano {
+    position: absolute;
+    top: 14px;
+    font-size: 0.64rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .arte__tag { left: 16px; color: var(--cor); }
+  .arte__ano { right: 16px; color: var(--suave); }
+
+  .arte__janela {
+    position: absolute;
+    left: 9%;
+    top: 19%;
+    width: 88%;
+    border-radius: 8px 8px 0 0;
+    overflow: hidden;
+    background: #0b0f16;
+    border: 1px solid color-mix(in srgb, var(--cor) 35%, rgba(255, 255, 255, 0.08));
+    box-shadow:
+      0 30px 60px -20px rgba(0, 0, 0, 0.9),
+      0 0 50px -18px color-mix(in srgb, var(--cor) 60%, transparent);
+    transform: perspective(1100px) rotateX(9deg) rotateY(-11deg) rotateZ(1.5deg);
+    transform-origin: 30% 0;
+    transition: transform 0.7s var(--ease), box-shadow 0.7s;
+  }
+  .arte__barra {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 7px 10px;
+    background: #121824;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    font-size: 0.6rem;
+    color: var(--suave);
+  }
+  .arte__barra i { width: 7px; height: 7px; border-radius: 50%; background: #263042; }
+  .arte__barra i:first-child { background: color-mix(in srgb, var(--cor) 80%, #000); }
+  .arte__barra span {
+    margin-left: 8px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.35);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Ao passar o mouse no card, a janela "endireita" e sobe. */
+  :global(.card:hover) .arte__janela {
+    transform: perspective(1100px) rotateX(2deg) rotateY(-3deg) rotateZ(0deg) translateY(-6px);
+    box-shadow:
+      0 40px 70px -20px rgba(0, 0, 0, 0.9),
+      0 0 70px -14px color-mix(in srgb, var(--cor) 75%, transparent);
+  }
+  :global(.card:hover) .arte__brilho { transform: scale(1.25); opacity: 1; }
+  :global(.card:hover) .arte :global(.capa) { transform: none !important; }
+</style>

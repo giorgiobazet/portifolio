@@ -10,11 +10,11 @@ const { lang, alternativo } = Astro.props;
 const t = textos[lang];
 const home = rotas[lang].home;
 const links = [
-  { href: `${home}#projetos`, num: '01', texto: t.nav.projetos },
-  { href: `${home}#stack`, num: '02', texto: t.nav.stack },
-  { href: `${home}#sobre`, num: '04', texto: t.nav.sobre },
-  { href: `${home}#trajetoria`, num: '05', texto: t.nav.trajetoria },
-  { href: `${home}#contato`, num: '06', texto: t.nav.contato },
+  { secao: 'projetos', num: '01', texto: t.nav.projetos },
+  { secao: 'stack', num: '02', texto: t.nav.stack },
+  { secao: 'sobre', num: '04', texto: t.nav.sobre },
+  { secao: 'trajetoria', num: '05', texto: t.nav.trajetoria },
+  { secao: 'contato', num: '06', texto: t.nav.contato },
 ];
 ---
 
@@ -28,12 +28,13 @@ const links = [
     <nav class="nav__links" id="menu" aria-label={lang === 'pt' ? 'Principal' : 'Main'}>
       {
         links.map((l) => (
-          <a href={l.href}>
+          <a href={`${home}#${l.secao}`} data-secao={l.secao}>
             <span>{l.num}</span>
             {l.texto}
           </a>
         ))
       }
+      <i class="nav__indicador" aria-hidden="true" data-indicador></i>
     </nav>
 
     <div class="nav__acoes">
@@ -51,6 +52,7 @@ const links = [
       </button>
     </div>
   </div>
+  <div class="nav__progresso" aria-hidden="true"><i data-progresso></i></div>
 </header>
 
 <style>
@@ -89,14 +91,52 @@ const links = [
   .marca__mono b { color: var(--acento-2); font-weight: 500; }
   .marca__nome { font-family: var(--fonte-titulo); font-weight: 500; letter-spacing: -0.01em; }
 
-  .nav__links { display: flex; gap: 28px; }
+  .nav__links { position: relative; display: flex; gap: 6px; }
   .nav__links a {
+    position: relative;
+    z-index: 1;
+    padding: 8px 12px;
     font-size: 0.9rem;
     color: var(--texto-2);
-    transition: color 0.2s;
+    transition: color 0.3s;
   }
-  .nav__links a span { font-family: var(--fonte-mono); font-size: 0.72rem; color: var(--acento); margin-right: 6px; }
+  .nav__links a span { font-family: var(--fonte-mono); font-size: 0.72rem; color: var(--suave); margin-right: 6px; transition: color 0.3s; }
   .nav__links a:hover { color: var(--texto); }
+  .nav__links a.ativo { color: var(--texto); }
+  .nav__links a.ativo span { color: var(--acento); }
+
+  /* Marcador que desliza até o item da seção visível. */
+  .nav__indicador {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 0;
+    opacity: 0;
+    background: var(--acento-fundo);
+    border: 1px solid rgba(198, 255, 61, 0.25);
+    transition: transform 0.5s var(--ease), width 0.5s var(--ease), opacity 0.3s;
+    pointer-events: none;
+  }
+  .nav__indicador::after {
+    content: '';
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    bottom: -1px;
+    height: 2px;
+    background: var(--acento);
+    box-shadow: 0 0 12px var(--acento);
+  }
+
+  .nav__progresso { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; overflow: hidden; }
+  .nav__progresso i {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, var(--acento), var(--acento-2));
+    transform-origin: left;
+    transform: scaleX(0);
+  }
 
   .nav__acoes { display: flex; align-items: center; gap: 10px; }
   .nav__idioma {
@@ -139,6 +179,8 @@ const links = [
       transition: opacity 0.25s, transform 0.25s, visibility 0.25s;
     }
     .nav__links a { padding: 14px 0; border-bottom: 1px solid var(--linha); font-size: 1rem; }
+    .nav__indicador { display: none; }
+    .nav__links a.ativo { color: var(--acento); }
     .nav.aberto .nav__links { opacity: 1; transform: none; visibility: visible; }
     .nav.aberto { background: rgba(4, 6, 9, 0.96); }
   }
@@ -151,9 +193,65 @@ const links = [
   const nav = document.querySelector<HTMLElement>('[data-nav]')!;
   const botao = nav.querySelector<HTMLButtonElement>('[data-menu]')!;
 
-  const aoRolar = () => nav.classList.toggle('rolou', window.scrollY > 20);
+  const progresso = nav.querySelector<HTMLElement>('[data-progresso]')!;
+  const indicador = nav.querySelector<HTMLElement>('[data-indicador]')!;
+  const links = [...nav.querySelectorAll<HTMLAnchorElement>('[data-secao]')];
+
+  // Fundo do cabeçalho e barra de progresso da leitura.
+  let pendente = false;
+  const aoRolar = () => {
+    pendente = false;
+    nav.classList.toggle('rolou', window.scrollY > 20);
+    const total = document.documentElement.scrollHeight - window.innerHeight;
+    progresso.style.transform = `scaleX(${total > 0 ? Math.min(1, window.scrollY / total) : 0})`;
+  };
   aoRolar();
-  window.addEventListener('scroll', aoRolar, { passive: true });
+  window.addEventListener('scroll', () => {
+    if (!pendente) {
+      pendente = true;
+      requestAnimationFrame(aoRolar);
+    }
+  }, { passive: true });
+
+  // Seção ativa: marca o link e move o indicador até ele.
+  function marcar(id: string | null) {
+    const ativo = links.find((l) => l.dataset.secao === id);
+    links.forEach((l) => {
+      l.classList.toggle('ativo', l === ativo);
+      if (l === ativo) l.setAttribute('aria-current', 'location');
+      else l.removeAttribute('aria-current');
+    });
+    if (ativo) {
+      indicador.style.opacity = '1';
+      indicador.style.width = `${ativo.offsetWidth}px`;
+      indicador.style.transform = `translateX(${ativo.offsetLeft}px)`;
+    } else {
+      indicador.style.opacity = '0';
+    }
+  }
+
+  const secoes = links.map((l) => document.getElementById(l.dataset.secao!)).filter(Boolean) as HTMLElement[];
+  if (secoes.length) {
+    const visiveis = new Map<string, number>();
+    const observador = new IntersectionObserver(
+      (entradas) => {
+        entradas.forEach((e) => visiveis.set(e.target.id, e.isIntersecting ? e.intersectionRatio : 0));
+        // A seção que mais ocupa a faixa central da tela vence.
+        let melhor: string | null = null;
+        let maior = 0;
+        visiveis.forEach((razao, id) => {
+          if (razao > maior) {
+            maior = razao;
+            melhor = id;
+          }
+        });
+        marcar(melhor);
+      },
+      { rootMargin: '-35% 0px -45% 0px', threshold: [0, 0.1, 0.25, 0.5, 0.75, 1] },
+    );
+    secoes.forEach((s) => observador.observe(s));
+    window.addEventListener('resize', () => marcar(links.find((l) => l.classList.contains('ativo'))?.dataset.secao ?? null));
+  }
 
   function fecharMenu() {
     nav.classList.remove('aberto');

@@ -12,6 +12,8 @@ type Conteudo = {
 
 export type Projeto = {
   slug: string;
+  /** Cor de destaque da capa do projeto. */
+  cor: string;
   ordem: number;
   destaque: boolean;
   ano: number;

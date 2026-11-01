@@ -7,12 +7,14 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "imagens": "node scripts/preparar-imagens.mjs"
+    "imagens": "node scripts/preparar-imagens.mjs",
+    "deploy": "npm run build && wrangler pages deploy dist --project-name giorgiobazet --branch main"
   },
   "dependencies": {
     "astro": "^5.7.0"
   },
   "devDependencies": {
-    "sharp": "^0.34.1"
+    "sharp": "^0.34.1",
+    "wrangler": "^4.156.1"
   }
 }

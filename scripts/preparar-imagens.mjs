@@ -59,6 +59,14 @@ const FOTO_ATIVA = 'casa';
     .resize(240, 240).webp({ quality: 82 }).toFile(path.join(DESTINO, 'giorgio-avatar.webp'));
 }
 
+// Recorte usado nos cards, para o conteúdo do site ocupar a capa em vez de
+// sobrar espaço vazio (coordenadas no print de 1440x900, proporção 16:10).
+const RECORTES_CARD = {
+  nology: { left: 208, top: 0, width: 1024, height: 640 },
+  ponteiros: { left: 230, top: 10, width: 980, height: 612 },
+  'pacman-web': { left: 220, top: 220, width: 1000, height: 625 },
+};
+
 // Prints dos projetos: versão grande (página do projeto) e pequena (cards).
 for (const arquivo of await readdir(ORIGEM)) {
   if (!arquivo.endsWith('.png')) continue;
@@ -66,7 +74,9 @@ for (const arquivo of await readdir(ORIGEM)) {
   const entrada = sharp(path.join(ORIGEM, arquivo));
   await entrada.clone().resize(1440, 900, { fit: 'cover', position: 'top' }).webp({ quality: 80 })
     .toFile(path.join(DESTINO, 'projetos', `${nome}.webp`));
-  await entrada.clone().resize(720, 450, { fit: 'cover', position: 'top' }).webp({ quality: 78 })
+  const base = await entrada.clone().resize(1440, 900, { fit: 'cover', position: 'top' }).png().toBuffer();
+  const card = RECORTES_CARD[nome] ? sharp(base).extract(RECORTES_CARD[nome]) : sharp(base);
+  await card.resize(800, 500, { fit: 'cover', position: 'top' }).webp({ quality: 80 })
     .toFile(path.join(DESTINO, 'projetos', `${nome}-720.webp`));
 }
 

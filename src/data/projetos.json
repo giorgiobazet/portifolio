@@ -1,16 +1,29 @@
 [
   {
     "slug": "furiozos",
+    "cor": "#c6ff3d",
     "ordem": 1,
     "destaque": true,
     "ano": 2026,
     "status": "online",
-    "categorias": ["web"],
+    "categorias": [
+      "web"
+    ],
     "url": "https://atletica-furiozos.web.app",
     "repo": "https://github.com/giorgiobazet/FurioZOs",
     "preview": false,
-    "capa": { "tipo": "imagem", "src": "/img/projetos/furiozos" },
-    "tecnologias": ["JavaScript", "Tailwind CSS", "Firebase Auth", "Firestore", "Cloudflare Workers", "Mercado Pago API"],
+    "capa": {
+      "tipo": "imagem",
+      "src": "/img/projetos/furiozos"
+    },
+    "tecnologias": [
+      "JavaScript",
+      "Tailwind CSS",
+      "Firebase Auth",
+      "Firestore",
+      "Cloudflare Workers",
+      "Mercado Pago API"
+    ],
     "pt": {
       "titulo": "FurioZOs",
       "subtitulo": "Site oficial e loja da Atlética da UERJ Zona Oeste",
@@ -48,16 +61,31 @@
   },
   {
     "slug": "nology",
+    "cor": "#4f8bff",
     "ordem": 2,
     "destaque": false,
     "ano": 2026,
     "status": "online",
-    "categorias": ["web", "python"],
+    "categorias": [
+      "web",
+      "python"
+    ],
     "url": "https://desafio-nology-k7v7.vercel.app/",
     "repo": "https://github.com/giorgiobazet/Desafio_Nology",
     "preview": true,
-    "capa": { "tipo": "imagem", "src": "/img/projetos/nology" },
-    "tecnologias": ["Python", "FastAPI", "PostgreSQL", "SQLAlchemy", "JavaScript", "Vercel", "Render"],
+    "capa": {
+      "tipo": "imagem",
+      "src": "/img/projetos/nology"
+    },
+    "tecnologias": [
+      "Python",
+      "FastAPI",
+      "PostgreSQL",
+      "SQLAlchemy",
+      "JavaScript",
+      "Vercel",
+      "Render"
+    ],
     "pt": {
       "titulo": "Desafio Nology",
       "subtitulo": "Calculadora de cashback full-stack",
@@ -93,16 +121,28 @@
   },
   {
     "slug": "ponteiros",
+    "cor": "#3ee6ff",
     "ordem": 3,
     "destaque": false,
     "ano": 2026,
     "status": "online",
-    "categorias": ["web", "c"],
+    "categorias": [
+      "web",
+      "c"
+    ],
     "url": "https://giorgiobazet.github.io/Ponteiros/",
     "repo": "https://github.com/giorgiobazet/Ponteiros",
     "preview": true,
-    "capa": { "tipo": "imagem", "src": "/img/projetos/ponteiros" },
-    "tecnologias": ["JavaScript", "HTML", "CSS", "C"],
+    "capa": {
+      "tipo": "imagem",
+      "src": "/img/projetos/ponteiros"
+    },
+    "tecnologias": [
+      "JavaScript",
+      "HTML",
+      "CSS",
+      "C"
+    ],
     "pt": {
       "titulo": "Simulador de Ponteiros",
       "subtitulo": "Memória e ponteiros em C, de forma visual",
@@ -134,16 +174,27 @@
   },
   {
     "slug": "createcode",
+    "cor": "#ff9f43",
     "ordem": 4,
     "destaque": false,
     "ano": 2026,
     "status": "academico",
-    "categorias": ["web", "academico"],
+    "categorias": [
+      "web",
+      "academico"
+    ],
     "url": "",
     "repo": "https://github.com/giorgiobazet/CreateCode",
     "preview": false,
-    "capa": { "tipo": "blocos" },
-    "tecnologias": ["HTML", "CSS", "JavaScript", "Programação em blocos"],
+    "capa": {
+      "tipo": "blocos"
+    },
+    "tecnologias": [
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "Programação em blocos"
+    ],
     "pt": {
       "titulo": "CreateCode",
       "subtitulo": "Jogos em blocos para ensinar programação",
@@ -177,21 +228,32 @@
   },
   {
     "slug": "pacman-web",
+    "cor": "#ffd400",
     "ordem": 5,
     "destaque": false,
     "ano": 2026,
     "status": "online",
-    "categorias": ["web", "jogos"],
+    "categorias": [
+      "web",
+      "jogos"
+    ],
     "url": "https://giorgiobazet.github.io/Pacman-Web/",
     "repo": "https://github.com/giorgiobazet/Pacman-Web",
     "preview": true,
-    "capa": { "tipo": "imagem", "src": "/img/projetos/pacman-web" },
-    "tecnologias": ["JavaScript", "Canvas", "HTML", "CSS"],
+    "capa": {
+      "tipo": "imagem",
+      "src": "/img/projetos/pacman-web"
+    },
+    "tecnologias": [
+      "JavaScript",
+      "Canvas",
+      "HTML",
+      "CSS"
+    ],
     "pt": {
       "titulo": "Pac-Man Web",
       "subtitulo": "O clássico, jogável no navegador",
       "resumo": "Recriação do Pac-Man em JavaScript, com fantasmas, pontuação e controles para teclado e celular.",
-
       "descricao": [
         "Versão web do Pac-Man feita do zero em JavaScript, desenhada em Canvas.",
         "O jogo tem labirinto, quatro fantasmas, contagem de pontos e de pastilhas restantes, tela de fim de jogo e botões na tela para jogar pelo celular."
@@ -219,11 +281,15 @@
   },
   {
     "slug": "pacman-c",
+    "cor": "#ff7a59",
     "ordem": 6,
     "destaque": false,
     "ano": 2026,
     "status": "codigo",
-    "categorias": ["jogos", "c"],
+    "categorias": [
+      "jogos",
+      "c"
+    ],
     "url": "",
     "repo": "https://github.com/giorgiobazet/Pacman-em-C",
     "preview": false,
@@ -232,7 +298,11 @@
       "arquivo": "pacman.c",
       "trecho": "typedef struct {\n    Posicao pos;\n    char background_anterior;\n    int dir_x, dir_y;\n} Fantasma;\n\ntypedef struct {\n    char **grade;\n    int linhas, colunas;\n    int pontos_totais, pontos_coletados;\n} Mapa;"
     },
-    "tecnologias": ["C", "Alocação dinâmica", "Terminal ANSI"],
+    "tecnologias": [
+      "C",
+      "Alocação dinâmica",
+      "Terminal ANSI"
+    ],
     "pt": {
       "titulo": "Pac-Man em C",
       "subtitulo": "O jogo rodando direto no terminal",
@@ -264,11 +334,15 @@
   },
   {
     "slug": "algoritmos-c",
+    "cor": "#9b8cff",
     "ordem": 7,
     "destaque": false,
     "ano": 2026,
     "status": "codigo",
-    "categorias": ["c", "academico"],
+    "categorias": [
+      "c",
+      "academico"
+    ],
     "url": "",
     "repo": "https://github.com/giorgiobazet/Algoritmos-C",
     "preview": false,
@@ -277,7 +351,11 @@
       "arquivo": "algoritmo-40.c",
       "trecho": "printf(\"\\nEntre com a idade: \");\nscanf(\"%d\", &idade);\n\nswitch(idade){\n    case 5: case 6: case 7:\n        printf(\"\\nInfantil A\\n\");\n    break;\n    case 8: case 9: case 10: case 11:\n        printf(\"\\nInfantil B\\n\");\n    break;"
     },
-    "tecnologias": ["C", "Lógica de programação", "Estruturas de controle"],
+    "tecnologias": [
+      "C",
+      "Lógica de programação",
+      "Estruturas de controle"
+    ],
     "pt": {
       "titulo": "Algoritmos em C",
       "subtitulo": "Mais de 90 programas da faculdade",
@@ -309,11 +387,15 @@
   },
   {
     "slug": "python",
+    "cor": "#ffd43b",
     "ordem": 8,
     "destaque": false,
     "ano": 2026,
     "status": "codigo",
-    "categorias": ["python", "academico"],
+    "categorias": [
+      "python",
+      "academico"
+    ],
     "url": "",
     "repo": "https://github.com/giorgiobazet/Programando-em-Python",
     "preview": false,
@@ -322,7 +404,11 @@
       "arquivo": "exececoes_personalizadas.py",
       "trecho": "class MeuErroPersonalizado(Exception):\n    pass\n\ndef funcao(condicao):\n    if condicao:\n        raise MeuErroPersonalizado(\"Descrição do erro\")\n\ntry:\n    funcao(True)\nexcept MeuErroPersonalizado as e:\n    print(f\"Erro: {str(e)}\")"
     },
-    "tecnologias": ["Python", "POO", "Manipulação de arquivos"],
+    "tecnologias": [
+      "Python",
+      "POO",
+      "Manipulação de arquivos"
+    ],
     "pt": {
       "titulo": "Programando em Python",
       "subtitulo": "Estudos do curso de Python do Santander",

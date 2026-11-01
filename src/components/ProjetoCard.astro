@@ -1,5 +1,5 @@
 ---
-import Capa from './Capa.astro';
+import CapaCard from './CapaCard.astro';
 import Icone from './Icone.astro';
 import { textos, rotas, type Idioma } from '../i18n/textos';
 import type { Projeto } from '../data/projetos';
@@ -17,7 +17,7 @@ const pagina = rotas[lang].projeto(p.slug);
 
 <article class="card" data-categorias={p.categorias.join(' ')} data-revelar style={`--atraso:${numero % 3}`}>
   <div class="card__capa">
-    <Capa capa={p.capa} titulo={c.titulo} />
+    <CapaCard projeto={p} numero={numero} lang={lang} />
     {
       p.preview && p.url && (
         <button class="card__preview" type="button" data-preview-url={p.url} data-preview-titulo={c.titulo}>
