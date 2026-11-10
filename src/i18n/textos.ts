@@ -16,7 +16,7 @@ export const rotas = {
 
 // Tecnologias da faixa que corre abaixo do topo.
 export const faixaStack = [
-  'JavaScript', 'React', 'Angular', 'HTML & CSS', 'Tailwind CSS', 'Python', 'FastAPI',
+  'JavaScript', 'TypeScript', 'React', 'Angular', 'HTML & CSS', 'Tailwind CSS', 'Python', 'FastAPI',
   'C', 'C++', 'SQL', 'PostgreSQL', 'Firebase', 'Cloudflare Workers', 'Git',
 ];
 
@@ -26,7 +26,8 @@ export const stack = [
   {
     grupo: { pt: 'Front-end', en: 'Front end' },
     itens: [
-      { nome: 'JavaScript', sigla: 'JS', usa: ['JavaScript', 'TypeScript'], pt: 'Lógica de interface, interações e jogos no navegador.', en: 'Interface logic, interactions and browser games.' },
+      { nome: 'JavaScript', sigla: 'JS', usa: ['JavaScript'], pt: 'Lógica de interface, interações e jogos no navegador.', en: 'Interface logic, interactions and browser games.' },
+      { nome: 'TypeScript', sigla: 'TS', usa: ['TypeScript'], pt: 'Tipagem estática para código mais seguro e fácil de manter.', en: 'Static typing for safer, easier-to-maintain code.' },
       { nome: 'HTML & CSS', sigla: '</>', usa: ['HTML', 'CSS'], pt: 'Layouts responsivos e acessíveis, sem depender de framework.', en: 'Responsive, accessible layouts, no framework required.' },
       { nome: 'React', sigla: 'Re', usa: ['React', 'Next.js'], pt: 'Interfaces com componentes, Next.js e animações.', en: 'Component-based interfaces, Next.js and animation.' },
       { nome: 'Angular', sigla: 'Ng', usa: [], pt: 'Desenvolvimento front-end e manutenção de sistemas legados.', en: 'Front-end development and legacy system maintenance.' },
@@ -66,7 +67,7 @@ export const textos = {
       linhas: [
         'iniciando portfolio.giorgio',
         'carregando projetos ............ 9',
-        'carregando stack ............... 14',
+        'carregando stack ............... 15',
         'verificando formação ........... UERJ · UVA',
         'sistema pronto.',
       ],
@@ -150,7 +151,7 @@ export const textos = {
       frase2: 'por trás do código.',
       bio: [
         'Estudo Ciência da Computação na UERJ e Gestão de TI na UVA. Antes de escrever código, procuro entender o problema por inteiro. Depois, entrego a solução mais simples que resolve de verdade.',
-        'No front-end, trabalho com HTML, CSS, JavaScript, React e Angular. No back-end e na base da computação, com Python, C, C++ e SQL. Hoje meu foco é aprofundar Python em automação e dados e seguir evoluindo em segurança da informação e inteligência artificial.',
+        'No front-end, trabalho com HTML, CSS, JavaScript, TypeScript, React e Angular. No back-end e na base da computação, com Python, C, C++ e SQL. Hoje meu foco é aprofundar Python em automação e dados e seguir evoluindo em segurança da informação e inteligência artificial.',
         'Ensinar sempre fez parte do caminho: concluí o ensino médio em Formação de Professores, presidi o Diretório Acadêmico de Computação da UERJ e, em 2026, dou aulas de inglês no pré-vestibular da UERJ Zona Oeste.',
       ],
       numeros: [
@@ -224,7 +225,7 @@ export const textos = {
       linhas: [
         'booting portfolio.giorgio',
         'loading projects ............... 9',
-        'loading stack .................. 14',
+        'loading stack .................. 15',
         'checking education ............. UERJ · UVA',
         'system ready.',
       ],
@@ -308,7 +309,7 @@ export const textos = {
       frase2: 'behind the code.',
       bio: [
         "I study Computer Science at UERJ and IT Management at UVA. Before writing any code, I make sure I understand the whole problem. Then I ship the simplest solution that actually solves it.",
-        "On the front end, I work with HTML, CSS, JavaScript, React and Angular. On the back end and computing fundamentals, with Python, C, C++ and SQL. Right now I'm going deeper into Python for automation and data, and growing in information security and artificial intelligence.",
+        "On the front end, I work with HTML, CSS, JavaScript, TypeScript, React and Angular. On the back end and computing fundamentals, with Python, C, C++ and SQL. Right now I'm going deeper into Python for automation and data, and growing in information security and artificial intelligence.",
         "Teaching has always been part of the path: I finished a teacher-training high school program, served as president of UERJ's Computer Science Student Council and, in 2026, I teach English at UERJ West Zone's college-prep course.",
       ],
       numeros: [
