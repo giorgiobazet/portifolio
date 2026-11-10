@@ -26,9 +26,9 @@ export const stack = [
   {
     grupo: { pt: 'Front-end', en: 'Front end' },
     itens: [
-      { nome: 'JavaScript', sigla: 'JS', usa: ['JavaScript'], pt: 'Lógica de interface, interações e jogos no navegador.', en: 'Interface logic, interactions and browser games.' },
+      { nome: 'JavaScript', sigla: 'JS', usa: ['JavaScript', 'TypeScript'], pt: 'Lógica de interface, interações e jogos no navegador.', en: 'Interface logic, interactions and browser games.' },
       { nome: 'HTML & CSS', sigla: '</>', usa: ['HTML', 'CSS'], pt: 'Layouts responsivos e acessíveis, sem depender de framework.', en: 'Responsive, accessible layouts, no framework required.' },
-      { nome: 'React', sigla: 'Re', usa: [], pt: 'Criação e customização de telas e componentes.', en: 'Building and customizing screens and components.' },
+      { nome: 'React', sigla: 'Re', usa: ['React', 'Next.js'], pt: 'Interfaces com componentes, Next.js e animações.', en: 'Component-based interfaces, Next.js and animation.' },
       { nome: 'Angular', sigla: 'Ng', usa: [], pt: 'Desenvolvimento front-end e manutenção de sistemas legados.', en: 'Front-end development and legacy system maintenance.' },
       { nome: 'Tailwind CSS', sigla: 'Tw', usa: ['Tailwind CSS'], pt: 'Estilização rápida e consistente.', en: 'Fast, consistent styling.' },
     ],
@@ -65,7 +65,7 @@ export const textos = {
     intro: {
       linhas: [
         'iniciando portfolio.giorgio',
-        'carregando projetos ............ 8',
+        'carregando projetos ............ 9',
         'carregando stack ............... 14',
         'verificando formação ........... UERJ · UVA',
         'sistema pronto.',
@@ -156,7 +156,7 @@ export const textos = {
       numeros: [
         { valor: '90+', rotulo: 'programas em C' },
         { valor: '2', rotulo: 'graduações em andamento' },
-        { valor: '8', rotulo: 'projetos publicados' },
+        { valor: '9', rotulo: 'projetos publicados' },
         { valor: '6', rotulo: 'aprovações em concursos e vestibulares' },
       ],
       foto: 'Foto de Giorgio Bazet',
@@ -223,7 +223,7 @@ export const textos = {
     intro: {
       linhas: [
         'booting portfolio.giorgio',
-        'loading projects ............... 8',
+        'loading projects ............... 9',
         'loading stack .................. 14',
         'checking education ............. UERJ · UVA',
         'system ready.',
@@ -314,7 +314,7 @@ export const textos = {
       numeros: [
         { valor: '90+', rotulo: 'programs in C' },
         { valor: '2', rotulo: 'degrees in progress' },
-        { valor: '8', rotulo: 'published projects' },
+        { valor: '9', rotulo: 'published projects' },
         { valor: '6', rotulo: 'admissions and civil service exams passed' },
       ],
       foto: 'Photo of Giorgio Bazet',

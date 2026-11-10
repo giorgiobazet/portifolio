@@ -98,7 +98,18 @@ const links = [
     padding: 8px 12px;
     font-size: 0.9rem;
     color: var(--texto-2);
+    white-space: nowrap;
     transition: color 0.3s;
+  }
+  .marca__nome { white-space: nowrap; }
+
+  /* Telas médias: menos texto ao redor para os links caberem numa linha só. */
+  @media (max-width: 1180px) and (min-width: 901px) {
+    .nav__dentro { gap: 12px; }
+    .nav__links { gap: 0; }
+    .nav__links a { padding: 8px 9px; font-size: 0.86rem; }
+    .nav__links a span { display: none; }
+    .nav__terminal span, .nav__terminal kbd { display: none; }
   }
   .nav__links a span { font-family: var(--fonte-mono); font-size: 0.72rem; color: var(--suave); margin-right: 6px; transition: color 0.3s; }
   .nav__links a:hover { color: var(--texto); }

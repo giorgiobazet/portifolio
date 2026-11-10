@@ -60,9 +60,72 @@
     }
   },
   {
+    "slug": "organicalab",
+    "cor": "#8b5cf6",
+    "ordem": 2,
+    "destaque": false,
+    "ano": 2026,
+    "status": "online",
+    "categorias": [
+      "web",
+      "academico"
+    ],
+    "url": "https://organicalab.web.app",
+    "repo": "https://github.com/giorgiobazet/chempharm-hub",
+    "preview": true,
+    "capa": {
+      "tipo": "imagem",
+      "src": "/img/projetos/organicalab"
+    },
+    "tecnologias": [
+      "Next.js",
+      "TypeScript",
+      "React",
+      "Tailwind CSS",
+      "3Dmol.js",
+      "Firebase Auth",
+      "Firestore",
+      "PubChem API"
+    ],
+    "pt": {
+      "titulo": "OrgânicaLab",
+      "subtitulo": "Laboratório virtual de Química Orgânica",
+      "resumo": "Plataforma de estudo para Farmácia com jogos interativos e moléculas 3D reais do PubChem, onde a geometria muda a química.",
+      "descricao": [
+        "O OrgânicaLab é um laboratório virtual de Química Orgânica para estudantes de Farmácia e cursos afins. Ele reúne as quatro disciplinas do ciclo (Orgânica 1, 2 e 3 e Análise Orgânica) em jogos interativos, com login, progresso e XP de cada aluno.",
+        "Uma regra pedagógica guia a interface: o 3D aparece só onde a geometria espacial muda o comportamento químico, como em conformações, estereoquímica e ressonância. No resto, entram fórmulas em bastão no padrão IUPAC, que são mais claras.",
+        "As estruturas 3D vêm da API do PubChem, com cópia local de geometrias calculadas no campo de força MMFF94, e os dados físico-químicos e espectrais citam a fonte na literatura. Idealizei e desenvolvi o projeto, com consultoria pedagógica de Rafaella Costa."
+      ],
+      "destaques": [
+        "Nove jogos em quatro disciplinas, de estereoquímica à elucidação estrutural por IV, EM e RMN",
+        "Visualizador 3D com 3Dmol.js: bola e bastão, van der Waals e nuvem eletrônica",
+        "Fórmulas em bastão IUPAC com cunhas estereoquímicas, desenhadas a partir de SMILES",
+        "Login com verificação de e-mail e regras do Firestore: cada aluno acessa só o próprio progresso",
+        "Exportação estática do Next.js publicada no Firebase Hosting"
+      ]
+    },
+    "en": {
+      "titulo": "OrgânicaLab",
+      "subtitulo": "A virtual Organic Chemistry lab",
+      "resumo": "A study platform for Pharmacy students with interactive games and real 3D molecules from PubChem, where geometry changes the chemistry.",
+      "descricao": [
+        "OrgânicaLab is a virtual Organic Chemistry lab for Pharmacy and related programs. It covers the four courses of the sequence (Organic 1, 2 and 3 and Organic Analysis) through interactive games, with sign-in, progress and XP for each student.",
+        "One teaching rule drives the interface: 3D shows up only where spatial geometry changes chemical behavior, such as conformations, stereochemistry and resonance. Everywhere else, IUPAC skeletal formulas are clearer and are used instead.",
+        "3D structures come from the PubChem API, with a local copy of geometries computed with the MMFF94 force field, and physicochemical and spectral data cite their literature source. I designed and built the project, with teaching advice from Rafaella Costa."
+      ],
+      "destaques": [
+        "Nine games across four courses, from stereochemistry to structure elucidation with IR, MS and NMR",
+        "3D viewer built on 3Dmol.js: ball-and-stick, van der Waals and electron cloud",
+        "IUPAC skeletal formulas with stereo wedges, drawn from SMILES",
+        "Sign-in with email verification and Firestore rules: each student only reaches their own progress",
+        "Static Next.js export deployed on Firebase Hosting"
+      ]
+    }
+  },
+  {
     "slug": "nology",
     "cor": "#4f8bff",
-    "ordem": 2,
+    "ordem": 3,
     "destaque": false,
     "ano": 2026,
     "status": "online",
@@ -122,7 +185,7 @@
   {
     "slug": "ponteiros",
     "cor": "#3ee6ff",
-    "ordem": 3,
+    "ordem": 4,
     "destaque": false,
     "ano": 2026,
     "status": "online",
@@ -175,7 +238,7 @@
   {
     "slug": "createcode",
     "cor": "#ff9f43",
-    "ordem": 4,
+    "ordem": 5,
     "destaque": false,
     "ano": 2026,
     "status": "academico",
@@ -229,7 +292,7 @@
   {
     "slug": "pacman-web",
     "cor": "#ffd400",
-    "ordem": 5,
+    "ordem": 6,
     "destaque": false,
     "ano": 2026,
     "status": "online",
@@ -282,7 +345,7 @@
   {
     "slug": "pacman-c",
     "cor": "#ff7a59",
-    "ordem": 6,
+    "ordem": 7,
     "destaque": false,
     "ano": 2026,
     "status": "codigo",
@@ -334,8 +397,8 @@
   },
   {
     "slug": "algoritmos-c",
-    "cor": "#9b8cff",
-    "ordem": 7,
+    "cor": "#ff5fa2",
+    "ordem": 8,
     "destaque": false,
     "ano": 2026,
     "status": "codigo",
@@ -388,7 +451,7 @@
   {
     "slug": "python",
     "cor": "#ffd43b",
-    "ordem": 8,
+    "ordem": 9,
     "destaque": false,
     "ano": 2026,
     "status": "codigo",
